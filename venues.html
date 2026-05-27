@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Venues | La Tribu London</title>
+    <meta name="description" content="Partner with La Tribu to bring Latin events, trusted crowds, and warm community energy to your London venue.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="/js/supabase-client.js"></script>
+  </head>
+  <body>
+    <header class="site-nav">
+      <div class="container nav-inner">
+        <a class="brand" href="index.html" aria-label="La Tribu home">LA <span>TRIBU</span></a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="index.html">Home</a>
+          <a href="index.html#events">Events</a>
+          <a href="djs.html">DJs</a>
+          <a href="promotions.html">Promotions</a>
+          <a href="past-events.html">Past Events</a>
+          <a class="active" href="venues.html">Venues</a>
+        </nav>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" style="--hero-image: url('images/venue-hero.webp');">
+        <div class="container hero-content">
+          <span class="eyebrow">For London venues</span>
+          <h1>We Bring The Crowd. You Keep Bar & Food.</h1>
+          <p>We keep the door. You get a trusted Latin events partner who fills the room with warm, high-energy guests.</p>
+          <div class="hero-actions">
+            <a class="primary-cta" href="mailto:hello@latribu.london">Let's Talk</a>
+            <a class="secondary-cta" href="#venue-form">Send Details</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Why partner</span>
+            <h2 class="section-title">A Night That Works For The Room</h2>
+            <p class="section-intro" style="color: var(--charcoal);">Professional setup, community warmth, and a crowd that comes ready to dance, eat, drink, and come back.</p>
+          </div>
+          <div class="cards-grid three">
+            <article class="card">
+              <div class="card-content">
+                <span class="badge">Proven Crowd</span>
+                <h3>People Who Show Up</h3>
+                <p>Our audience is built through consistent events, community trust, and direct channels that convert attention into attendance.</p>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-content">
+                <span class="badge">Zero Marketing Cost</span>
+                <h3>We Drive Demand</h3>
+                <p>We handle promotion, ticketing, DJs, and guest comms. Your team focuses on service and a strong bar and food experience.</p>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-content">
+                <span class="badge">Trusted Brand</span>
+                <h3>Warm, Respectful Energy</h3>
+                <p>La Tribu nights are high-energy without losing the welcoming tone that keeps guests and venue teams comfortable.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">How it works</span>
+            <h2 class="section-title">Simple Partnership, Strong Night</h2>
+          </div>
+          <div class="cards-grid three">
+            <article class="card">
+              <div class="card-content numbered-step">
+                <span class="step-number">1</span>
+                <div>
+                  <h3>Get In Touch</h3>
+                  <p>Tell us about your space, capacity, licensing, and the nights you want to activate.</p>
+                </div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-content numbered-step">
+                <span class="step-number">2</span>
+                <div>
+                  <h3>We Plan Together</h3>
+                  <p>We align on event format, music, arrival flow, bar setup, and what success looks like for both sides.</p>
+                </div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-content numbered-step">
+                <span class="step-number">3</span>
+                <div>
+                  <h3>We Fill Your Venue</h3>
+                  <p>We promote, ticket, host, and bring the ritmo. You keep bar and food revenue; we keep the door.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-accent">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Illustrative proof</span>
+            <h2 class="section-title">Built For Repeat Nights</h2>
+            <p class="section-intro" style="color: var(--charcoal);">Plausible planning figures based on the event format we build toward with venue partners.</p>
+          </div>
+          <div class="stats-grid">
+            <div class="stat"><strong>500+</strong><span>attendees per event</span></div>
+            <div class="stat"><strong>20+</strong><span>events hosted</span></div>
+            <div class="stat"><strong>4.9★</strong><span>average rating</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="venue-form">
+        <div class="container split">
+          <div>
+            <span class="eyebrow">Let's Talk</span>
+            <h2 class="section-title">Tell Us About Your Venue</h2>
+            <p class="section-intro" style="color: var(--charcoal);">Share the basics and we will come back with a practical event fit. Prefer email? Reach us at <a href="mailto:hello@latribu.london">hello@latribu.london</a>.</p>
+          </div>
+          <form class="light-form" id="venue-contact-form">
+            <div class="field-grid">
+              <div class="form-field">
+                <label for="contact-name">Name</label>
+                <input id="contact-name" name="name" type="text" required>
+              </div>
+              <div class="form-field">
+                <label for="venue-name">Venue name</label>
+                <input id="venue-name" name="venue" type="text" required>
+              </div>
+              <div class="form-field-full">
+                <label for="venue-email">Email</label>
+                <input id="venue-email" name="email" type="email" required>
+              </div>
+              <div class="form-field-full">
+                <label for="venue-message">Message</label>
+                <textarea id="venue-message" name="message" required></textarea>
+              </div>
+            </div>
+            <button class="primary-cta" type="submit">Let's Talk</button>
+            <p class="form-status" id="venue-form-status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="footer-signup">
+      <div class="container footer-main">
+        <section>
+          <h2 class="footer-title">Join the Tribe</h2>
+          <p>Get first access to tickets, birthday tables, and the next noche.</p>
+          <form data-signup-form>
+            <div class="form-row">
+              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+              <button class="primary-cta" type="submit">Join the Tribe</button>
+            </div>
+            <p class="form-status" data-signup-status aria-live="polite"></p>
+          </form>
+        </section>
+        <section>
+          <h2 class="footer-title">WhatsApp</h2>
+          <p>Scan or tap in for ticket drops and last-minute plans.</p>
+          <a class="qr-placeholder image-frame" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
+            <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" onerror="this.hidden=true">
+          </a>
+        </section>
+        <section>
+          <h2 class="footer-title">Follow</h2>
+          <p>Keep the ritmo going between events.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/placeholder">Instagram</a>
+            <a href="https://www.tiktok.com/@placeholder">TikTok</a>
+            <a href="https://chat.whatsapp.com/placeholder">WhatsApp</a>
+          </div>
+        </section>
+      </div>
+      <div class="container footer-bottom">La Tribu London 2024</div>
+    </footer>
+
+    <script>
+      const navToggle = document.querySelector(".nav-toggle");
+      const navLinks = document.querySelectorAll(".nav-links a");
+      navToggle.addEventListener("click", () => {
+        const isOpen = document.body.classList.toggle("nav-open");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+      navLinks.forEach((link) => link.addEventListener("click", () => {
+        document.body.classList.remove("nav-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }));
+
+      document.querySelectorAll("[data-signup-form]").forEach((form) => {
+        const status = form.querySelector("[data-signup-status]");
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          status.className = "form-status";
+          status.textContent = "Joining...";
+          const email = new FormData(form).get("email");
+          try {
+            const result = await subscribeEmail(email);
+            status.textContent = result.message;
+            status.classList.add(result.success ? "success" : "error");
+            if (result.success) form.reset();
+          } catch (error) {
+            status.textContent = "Something went wrong. Please try again.";
+            status.classList.add("error");
+          }
+        });
+      });
+
+      const venueForm = document.getElementById("venue-contact-form");
+      const venueStatus = document.getElementById("venue-form-status");
+      venueForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        venueStatus.className = "form-status success";
+        venueStatus.textContent = "Thank you. We will be in touch soon.";
+        venueForm.reset();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La Tribu | London's Latin Scene</title>
+    <meta name="description" content="La Tribu brings London's Latin community together through salsa, reggaeton, bachata, brunches, and high-energy fiestas.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="/js/supabase-client.js"></script>
+  </head>
+  <body>
+    <header class="site-nav">
+      <div class="container nav-inner">
+        <a class="brand" href="index.html" aria-label="La Tribu home">LA <span>TRIBU</span></a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a class="active" href="index.html">Home</a>
+          <a href="#events">Events</a>
+          <a href="djs.html">DJs</a>
+          <a href="promotions.html">Promotions</a>
+          <a href="past-events.html">Past Events</a>
+          <a href="venues.html">Venues</a>
+        </nav>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" style="--hero-image: url('images/hero-bg.webp');">
+        <div class="container hero-content">
+          <span class="eyebrow">Join the familia</span>
+          <h1>London's Latin Scene. Your Tribe.</h1>
+          <p>Where the city finds its ritmo. Real people, real culture, and nights that feel like home from the first song.</p>
+          <div class="hero-actions">
+            <a class="primary-cta" href="https://www.fatsoma.com/e/placeholder">Get Your Tickets</a>
+            <a class="secondary-cta" href="#footer-signup">Join the Tribe</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="events">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Next up</span>
+            <h2 class="section-title">Upcoming Fiestas</h2>
+            <p class="section-intro">Choose your vibe, bring your people, and meet the rest of La Tribu on the dance floor.</p>
+          </div>
+          <div class="cards-grid">
+            <article class="card">
+              <div class="image-frame ratio-wide">
+                <img src="images/event-salsa.webp" alt="Couples dancing salsa at a La Tribu night" onerror="this.hidden=true">
+                <span class="date-badge">14 Jun</span>
+              </div>
+              <div class="card-content">
+                <h3>Salsa Social</h3>
+                <p>Warm up with lessons, stay for the sabor. A friendly night for beginners, regulars, and anyone who hears clave in their chest.</p>
+                <a class="primary-cta" href="https://www.fatsoma.com/e/placeholder">Get Your Tickets</a>
+              </div>
+            </article>
+            <article class="card">
+              <div class="image-frame ratio-wide">
+                <img src="images/event-reggaeton.webp" alt="Crowd dancing to reggaeton under warm lights" onerror="this.hidden=true">
+                <span class="date-badge">21 Jun</span>
+              </div>
+              <div class="card-content">
+                <h3>Reggaeton Noche</h3>
+                <p>Big hooks, heavy dembow, no standing still. This is the Saturday energy your group chat has been waiting for.</p>
+                <a class="primary-cta" href="https://www.fatsoma.com/e/placeholder">Get Your Tickets</a>
+              </div>
+            </article>
+            <article class="card">
+              <div class="image-frame ratio-wide">
+                <img src="images/event-bachata.webp" alt="Bachata dancers moving close on a packed floor" onerror="this.hidden=true">
+                <span class="date-badge">28 Jun</span>
+              </div>
+              <div class="card-content">
+                <h3>Bachata Bajo</h3>
+                <p>Smooth bachata, close connection, and a room full of good energy. Come solo or with your dance partner.</p>
+                <a class="primary-cta" href="https://www.fatsoma.com/e/placeholder">Get Your Tickets</a>
+              </div>
+            </article>
+            <article class="card">
+              <div class="image-frame ratio-wide">
+                <img src="images/event-brunch.webp" alt="Latin brunch table with friends raising glasses" onerror="this.hidden=true">
+                <span class="date-badge">06 Jul</span>
+              </div>
+              <div class="card-content">
+                <h3>Latin Brunch</h3>
+                <p>Food, music, birthday tables, and daytime fiesta energy. Bring your crew and leave with new familia.</p>
+                <a class="primary-cta" href="https://www.fatsoma.com/e/placeholder">Get Your Tickets</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark">
+        <div class="container split">
+          <div class="image-frame ratio-wide">
+            <img src="images/community.webp" alt="La Tribu community smiling together at a Latin event" onerror="this.hidden=true">
+          </div>
+          <div class="split-copy">
+            <span class="eyebrow">Community first</span>
+            <h2 class="section-title">Built for belonging.</h2>
+            <p>La Tribu exists to unite London's Latin community and everyone who loves the culture. Our nights are about rhythm, connection, and that feeling of walking into a room where you already belong.</p>
+            <p>From salsa steps to reggaeton choruses, we create space for culture to move through the city with warmth, sabor, and familia.</p>
+            <a class="primary-cta" href="#footer-signup">Join the Tribe</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-accent">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">The vibe</span>
+            <h2 class="section-title">Real Nights. Real People.</h2>
+            <p class="section-intro" style="color: var(--charcoal);">A few moments from the dance floor, the tables, the birthdays, and the strangers who became familia.</p>
+          </div>
+          <div class="gallery-grid">
+            <div class="image-frame gallery-item tall"><img src="images/gallery-1.webp" alt="Dancers cheering at La Tribu" onerror="this.hidden=true"></div>
+            <div class="image-frame gallery-item"><img src="images/gallery-2.webp" alt="DJ playing Latin music for the crowd" onerror="this.hidden=true"></div>
+            <div class="image-frame gallery-item wide"><img src="images/gallery-3.webp" alt="Friends dancing together at a Latin fiesta" onerror="this.hidden=true"></div>
+            <div class="image-frame gallery-item"><img src="images/gallery-4.webp" alt="Close-up of hands clapping to salsa rhythm" onerror="this.hidden=true"></div>
+            <div class="image-frame gallery-item tall"><img src="images/gallery-5.webp" alt="Packed dance floor under coral lights" onerror="this.hidden=true"></div>
+            <div class="image-frame gallery-item"><img src="images/gallery-6.webp" alt="Friends smiling at a La Tribu table" onerror="this.hidden=true"></div>
+            <div class="image-frame gallery-item wide"><img src="images/gallery-7.webp" alt="La Tribu crowd with hands in the air" onerror="this.hidden=true"></div>
+            <div class="image-frame gallery-item"><img src="images/gallery-8.webp" alt="Couple dancing bachata at La Tribu" onerror="this.hidden=true"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="footer-signup">
+      <div class="container footer-main">
+        <section>
+          <h2 class="footer-title">Join the Tribe</h2>
+          <p>Get first access to tickets, birthday tables, and the next noche.</p>
+          <form data-signup-form>
+            <div class="form-row">
+              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+              <button class="primary-cta" type="submit">Join the Tribe</button>
+            </div>
+            <p class="form-status" data-signup-status aria-live="polite"></p>
+          </form>
+        </section>
+        <section>
+          <h2 class="footer-title">WhatsApp</h2>
+          <p>Scan or tap in for ticket drops and last-minute plans.</p>
+          <a class="qr-placeholder image-frame" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
+            <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" onerror="this.hidden=true">
+          </a>
+        </section>
+        <section>
+          <h2 class="footer-title">Follow</h2>
+          <p>Keep the ritmo going between events.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/placeholder">Instagram</a>
+            <a href="https://www.tiktok.com/@placeholder">TikTok</a>
+            <a href="https://chat.whatsapp.com/placeholder">WhatsApp</a>
+          </div>
+        </section>
+      </div>
+      <div class="container footer-bottom">La Tribu London 2024</div>
+    </footer>
+
+    <script>
+      const navToggle = document.querySelector(".nav-toggle");
+      const navLinks = document.querySelectorAll(".nav-links a");
+      navToggle.addEventListener("click", () => {
+        const isOpen = document.body.classList.toggle("nav-open");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+      navLinks.forEach((link) => link.addEventListener("click", () => {
+        document.body.classList.remove("nav-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }));
+
+      document.querySelectorAll("[data-signup-form]").forEach((form) => {
+        const status = form.querySelector("[data-signup-status]");
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          status.className = "form-status";
+          status.textContent = "Joining...";
+          const email = new FormData(form).get("email");
+          try {
+            const result = await subscribeEmail(email);
+            status.textContent = result.message;
+            status.classList.add(result.success ? "success" : "error");
+            if (result.success) form.reset();
+          } catch (error) {
+            status.textContent = "Something went wrong. Please try again.";
+            status.classList.add("error");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

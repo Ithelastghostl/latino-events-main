@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Past Events | La Tribu London</title>
+    <meta name="description" content="Relive past La Tribu nights and sign in to see event photos.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="/js/supabase-client.js"></script>
+  </head>
+  <body>
+    <header class="site-nav">
+      <div class="container nav-inner">
+        <a class="brand" href="index.html" aria-label="La Tribu home">LA <span>TRIBU</span></a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="index.html">Home</a>
+          <a href="index.html#events">Events</a>
+          <a href="djs.html">DJs</a>
+          <a href="promotions.html">Promotions</a>
+          <a class="active" href="past-events.html">Past Events</a>
+          <a href="venues.html">Venues</a>
+        </nav>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero page-hero" style="--hero-image: url('images/past-events-hero.webp');">
+        <div class="container hero-content">
+          <span class="eyebrow">You were there</span>
+          <h1 class="page-title">Relive The Night</h1>
+          <p>Every recap carries the laughs, the dancing, and the moment the room became familia. Next one's even bigger.</p>
+        </div>
+      </section>
+
+      <section class="section section-dark">
+        <div class="container">
+          <div class="auth-bar">
+            <div>
+              <span class="eyebrow">Recaps</span>
+              <h2 class="section-title">Past Events</h2>
+            </div>
+            <button class="secondary-cta" id="sign-out-button" type="button" hidden>Sign Out</button>
+          </div>
+          <div id="events-root" class="events-list" aria-live="polite">
+            <div class="loading-state">Loading past events...</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="footer-signup">
+      <div class="container footer-main">
+        <section>
+          <h2 class="footer-title">Join the Tribe</h2>
+          <p>Get first access to tickets, birthday tables, and the next noche.</p>
+          <form data-signup-form>
+            <div class="form-row">
+              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+              <button class="primary-cta" type="submit">Join the Tribe</button>
+            </div>
+            <p class="form-status" data-signup-status aria-live="polite"></p>
+          </form>
+        </section>
+        <section>
+          <h2 class="footer-title">WhatsApp</h2>
+          <p>Scan or tap in for ticket drops and last-minute plans.</p>
+          <a class="qr-placeholder image-frame" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
+            <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" onerror="this.hidden=true">
+          </a>
+        </section>
+        <section>
+          <h2 class="footer-title">Follow</h2>
+          <p>Keep the ritmo going between events.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/placeholder">Instagram</a>
+            <a href="https://www.tiktok.com/@placeholder">TikTok</a>
+            <a href="https://chat.whatsapp.com/placeholder">WhatsApp</a>
+          </div>
+        </section>
+      </div>
+      <div class="container footer-bottom">La Tribu London 2024</div>
+    </footer>
+
+    <script>
+      const navToggle = document.querySelector(".nav-toggle");
+      const navLinks = document.querySelectorAll(".nav-links a");
+      navToggle.addEventListener("click", () => {
+        const isOpen = document.body.classList.toggle("nav-open");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+      navLinks.forEach((link) => link.addEventListener("click", () => {
+        document.body.classList.remove("nav-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }));
+
+      document.querySelectorAll("[data-signup-form]").forEach((form) => {
+        const status = form.querySelector("[data-signup-status]");
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          status.className = "form-status";
+          status.textContent = "Joining...";
+          const email = new FormData(form).get("email");
+          try {
+            const result = await subscribeEmail(email);
+            status.textContent = result.message;
+            status.classList.add(result.success ? "success" : "error");
+            if (result.success) form.reset();
+          } catch (error) {
+            status.textContent = "Something went wrong. Please try again.";
+            status.classList.add("error");
+          }
+        });
+      });
+
+      const eventsRoot = document.getElementById("events-root");
+      const signOutButton = document.getElementById("sign-out-button");
+      let pastEvents = [];
+      let currentSession = null;
+      let photoCache = {};
+      let visibleSignInEvent = null;
+      let busyEvent = null;
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, (character) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        }[character]));
+      }
+
+      function formatDate(value) {
+        if (!value) return "Date coming soon";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return escapeHtml(value);
+        return date.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+      }
+
+      function renderPhotos(eventId) {
+        if (busyEvent === eventId) return '<div class="loading-state">Loading photos...</div>';
+        const photos = photoCache[eventId];
+        if (!photos) return "";
+        if (!photos.length) return '<div class="empty-state">No photos are live yet. Check back after the next upload.</div>';
+        return `
+          <div class="photo-grid">
+            ${photos.map((photo) => `
+              <figure class="photo-card">
+                <div class="image-frame ratio-wide">
+                  <img src="${escapeHtml(photo.image_url)}" alt="${escapeHtml(photo.caption || "La Tribu event photo")}" onerror="this.hidden=true">
+                </div>
+                <figcaption>${escapeHtml(photo.caption || "La Tribu moment")}</figcaption>
+              </figure>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderAuthAction(event) {
+        const eventId = String(event.id);
+        if (currentSession) {
+          return `
+            <button class="primary-cta" type="button" data-load-photos="${escapeHtml(eventId)}">
+              ${photoCache[eventId] ? "Refresh Photos" : "View Photos"}
+            </button>
+            ${renderPhotos(eventId)}
+          `;
+        }
+
+        const isVisible = visibleSignInEvent === eventId;
+        return `
+          <button class="primary-cta" type="button" data-show-signin="${escapeHtml(eventId)}">Sign In to See Photos</button>
+          <div class="signin-panel ${isVisible ? "visible" : ""}" id="signin-${escapeHtml(eventId)}">
+            <p>Sign in to relive the night.</p>
+            <form data-photo-signin="${escapeHtml(eventId)}">
+              <div class="form-row">
+                <input type="email" name="email" placeholder="your@email.com" aria-label="Email address for magic link" required>
+                <button class="primary-cta" type="submit">Send Link</button>
+              </div>
+              <p class="form-status" data-auth-status aria-live="polite"></p>
+            </form>
+          </div>
+        `;
+      }
+
+      function renderEvents() {
+        signOutButton.hidden = !currentSession;
+        if (!pastEvents.length) {
+          eventsRoot.innerHTML = '<div class="empty-state">No recaps are live yet. Join the list and be first in when the next gallery drops.</div>';
+          return;
+        }
+
+        eventsRoot.innerHTML = pastEvents.map((event) => `
+          <article class="card past-event-card">
+            <div class="image-frame">
+              <img src="${escapeHtml(event.cover_image_url || "images/gallery-1.webp")}" alt="${escapeHtml(event.title || "La Tribu past event")}" onerror="this.hidden=true">
+            </div>
+            <div class="card-content">
+              <div class="past-event-meta">
+                <span>${formatDate(event.date)}</span>
+                <span>${escapeHtml(event.venue || "London")}</span>
+              </div>
+              <h3>${escapeHtml(event.title || "La Tribu Night")}</h3>
+              <p>${escapeHtml(event.description || "You were there. Next one's even bigger.")}</p>
+              ${renderAuthAction(event)}
+            </div>
+          </article>
+        `).join("");
+      }
+
+      async function loadEvents() {
+        eventsRoot.innerHTML = '<div class="loading-state">Loading past events...</div>';
+        try {
+          pastEvents = await getPastEvents();
+          renderEvents();
+        } catch (error) {
+          eventsRoot.innerHTML = '<div class="error-state">We could not load past events right now. Please try again soon.</div>';
+        }
+      }
+
+      async function refreshSession() {
+        try {
+          currentSession = await getSession();
+          renderEvents();
+        } catch (error) {
+          currentSession = null;
+          renderEvents();
+        }
+      }
+
+      eventsRoot.addEventListener("click", async (event) => {
+        const signInButton = event.target.closest("[data-show-signin]");
+        const photosButton = event.target.closest("[data-load-photos]");
+
+        if (signInButton) {
+          visibleSignInEvent = signInButton.dataset.showSignin;
+          renderEvents();
+          return;
+        }
+
+        if (photosButton) {
+          const eventId = photosButton.dataset.loadPhotos;
+          busyEvent = eventId;
+          renderEvents();
+          try {
+            photoCache[eventId] = await getEventPhotos(eventId);
+          } catch (error) {
+            photoCache[eventId] = [];
+          } finally {
+            busyEvent = null;
+            renderEvents();
+          }
+        }
+      });
+
+      eventsRoot.addEventListener("submit", async (event) => {
+        const form = event.target.closest("[data-photo-signin]");
+        if (!form) return;
+        event.preventDefault();
+        const status = form.querySelector("[data-auth-status]");
+        const email = new FormData(form).get("email");
+        status.className = "form-status";
+        status.textContent = "Sending...";
+        try {
+          const result = await signInWithEmail(email);
+          status.textContent = result.success ? "Check your email for a magic link" : result.message;
+          status.classList.add(result.success ? "success" : "error");
+          if (result.success) form.reset();
+        } catch (error) {
+          status.textContent = "Could not send login link. Please try again.";
+          status.classList.add("error");
+        }
+      });
+
+      signOutButton.addEventListener("click", async () => {
+        await signOut();
+        currentSession = null;
+        photoCache = {};
+        renderEvents();
+      });
+
+      onAuthChange((session) => {
+        currentSession = session;
+        visibleSignInEvent = null;
+        renderEvents();
+      });
+
+      loadEvents().then(refreshSession);
+    </script>
+  </body>
+</html>

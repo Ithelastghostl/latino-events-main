@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Promotions | La Tribu London</title>
+    <meta name="description" content="Current La Tribu deals, birthday offers, partner perks, and limited spots for London's Latin events.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="/js/supabase-client.js"></script>
+  </head>
+  <body>
+    <header class="site-nav">
+      <div class="container nav-inner">
+        <a class="brand" href="index.html" aria-label="La Tribu home">LA <span>TRIBU</span></a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="index.html">Home</a>
+          <a href="index.html#events">Events</a>
+          <a href="djs.html">DJs</a>
+          <a class="active" href="promotions.html">Promotions</a>
+          <a href="past-events.html">Past Events</a>
+          <a href="venues.html">Venues</a>
+        </nav>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero page-hero" style="--hero-image: url('images/promotions-hero.webp');">
+        <div class="container hero-content">
+          <span class="eyebrow">Deals with sabor</span>
+          <h1 class="page-title">Bring Your Crew For Less</h1>
+          <p>Limited tickets, birthday love, and partner perks for the people who keep La Tribu moving.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Current deals</span>
+            <h2 class="section-title">Grab It Before It Goes</h2>
+            <p class="section-intro" style="color: var(--charcoal);">The best nights move fast. Lock in your spot, then tell the group chat.</p>
+          </div>
+          <div class="cards-grid three">
+            <article class="card">
+              <div class="card-content">
+                <span class="badge">Early Bird</span>
+                <span class="deal-price">From £8</span>
+                <h3>First Release Tickets</h3>
+                <p>Lowest-price entry for the next La Tribu night. This week only, while the first release lasts.</p>
+                <a class="primary-cta" href="https://www.fatsoma.com/e/placeholder">Get Your Tickets</a>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-content">
+                <span class="badge">Limited Spots</span>
+                <span class="deal-price">4 for 3</span>
+                <h3>Familia Bundle</h3>
+                <p>Bring four people and pay for three on selected events. Perfect for birthdays, reunions, and big catch-ups.</p>
+                <a class="primary-cta" href="https://www.fatsoma.com/e/placeholder">Get Your Tickets</a>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-content">
+                <span class="badge">This Weekend Only</span>
+                <span class="deal-price">Free Shot</span>
+                <h3>Birthday Table Perk</h3>
+                <p>Book a birthday table this weekend and your group gets a welcome shot on arrival. Subject to venue capacity.</p>
+                <a class="primary-cta" href="https://www.fatsoma.com/e/placeholder">Get Your Tickets</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Partner offers</span>
+            <h2 class="section-title">Before And After The Noche</h2>
+            <p class="section-intro">We team up with local spots so your whole night feels easy, warm, and full of sabor.</p>
+          </div>
+          <div class="cards-grid three">
+            <article class="card">
+              <div class="card-content">
+                <span class="badge">Food</span>
+                <h3>Arepa Hour</h3>
+                <p>Show your La Tribu ticket at our partner kitchen for 15% off selected arepas before 8pm.</p>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-content">
+                <span class="badge">Drinks</span>
+                <h3>Two Mojitos</h3>
+                <p>Ticket holders get two house mojitos for a partner price during the first hour after doors open.</p>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-content">
+                <span class="badge">Dance</span>
+                <h3>Class Drop-In</h3>
+                <p>Try a beginner salsa or bachata class with a local teacher and get a discounted La Tribu ticket after class.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-accent">
+        <div class="container split">
+          <div>
+            <span class="eyebrow">First access</span>
+            <h2 class="section-title">Deals Hit Email First</h2>
+            <p class="section-intro" style="color: var(--charcoal);">Join the list for early bird drops, secret birthday perks, and limited spots before they land on socials.</p>
+          </div>
+          <form class="light-form" data-signup-form>
+            <div class="form-row">
+              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+              <button class="primary-cta" type="submit">Join the Tribe</button>
+            </div>
+            <p class="form-status" data-signup-status aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="footer-signup">
+      <div class="container footer-main">
+        <section>
+          <h2 class="footer-title">Join the Tribe</h2>
+          <p>Get first access to tickets, birthday tables, and the next noche.</p>
+          <form data-signup-form>
+            <div class="form-row">
+              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+              <button class="primary-cta" type="submit">Join the Tribe</button>
+            </div>
+            <p class="form-status" data-signup-status aria-live="polite"></p>
+          </form>
+        </section>
+        <section>
+          <h2 class="footer-title">WhatsApp</h2>
+          <p>Scan or tap in for ticket drops and last-minute plans.</p>
+          <a class="qr-placeholder image-frame" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
+            <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" onerror="this.hidden=true">
+          </a>
+        </section>
+        <section>
+          <h2 class="footer-title">Follow</h2>
+          <p>Keep the ritmo going between events.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/placeholder">Instagram</a>
+            <a href="https://www.tiktok.com/@placeholder">TikTok</a>
+            <a href="https://chat.whatsapp.com/placeholder">WhatsApp</a>
+          </div>
+        </section>
+      </div>
+      <div class="container footer-bottom">La Tribu London 2024</div>
+    </footer>
+
+    <script>
+      const navToggle = document.querySelector(".nav-toggle");
+      const navLinks = document.querySelectorAll(".nav-links a");
+      navToggle.addEventListener("click", () => {
+        const isOpen = document.body.classList.toggle("nav-open");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+      navLinks.forEach((link) => link.addEventListener("click", () => {
+        document.body.classList.remove("nav-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }));
+
+      document.querySelectorAll("[data-signup-form]").forEach((form) => {
+        const status = form.querySelector("[data-signup-status]");
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          status.className = "form-status";
+          status.textContent = "Joining...";
+          const email = new FormData(form).get("email");
+          try {
+            const result = await subscribeEmail(email);
+            status.textContent = result.message;
+            status.classList.add(result.success ? "success" : "error");
+            if (result.success) form.reset();
+          } catch (error) {
+            status.textContent = "Something went wrong. Please try again.";
+            status.classList.add("error");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

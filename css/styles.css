@@ -578,20 +578,14 @@ body.nav-open .nav-toggle span:nth-child(3) {
 
 .community {
   background:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 3px,
-      rgba(0, 0, 0, 0.06) 3px,
-      rgba(0, 0, 0, 0.06) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 3px,
-      rgba(0, 0, 0, 0.04) 3px,
-      rgba(0, 0, 0, 0.04) 4px
-    ),
+    radial-gradient(ellipse 180px 120px at 12% 25%, rgba(0, 0, 0, 0.18), transparent),
+    radial-gradient(ellipse 220px 160px at 78% 18%, rgba(0, 0, 0, 0.14), transparent),
+    radial-gradient(ellipse 160px 200px at 45% 72%, rgba(0, 0, 0, 0.16), transparent),
+    radial-gradient(ellipse 280px 100px at 88% 65%, rgba(0, 0, 0, 0.12), transparent),
+    radial-gradient(ellipse 140px 180px at 25% 85%, rgba(0, 0, 0, 0.15), transparent),
+    radial-gradient(ellipse 200px 140px at 62% 38%, rgba(255, 255, 255, 0.04), transparent),
+    radial-gradient(ellipse 170px 110px at 35% 15%, rgba(255, 255, 255, 0.03), transparent),
+    radial-gradient(ellipse 240px 130px at 92% 90%, rgba(0, 0, 0, 0.13), transparent),
     radial-gradient(circle at 0% 100%, rgba(217, 44, 105, 0.32), transparent 19rem),
     radial-gradient(circle at 95% 0%, rgba(0, 0, 0, 0.35), transparent 20rem),
     linear-gradient(90deg, #63180f, #a13020 42%, #91271a);

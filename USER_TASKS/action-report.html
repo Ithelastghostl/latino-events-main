@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Tribu — Setup Actions Required</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f0d0b; color: #f4eadc; line-height: 1.7; }
+    .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+    h1 { font-size: 2.2rem; margin-bottom: 0.5rem; color: #ef5a3f; }
+    .subtitle { color: #e2a23c; margin-bottom: 2rem; font-size: 1.1rem; }
+    .status-bar { background: #1a1714; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .status-item { text-align: center; }
+    .status-item .label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #999; }
+    .status-item .value { font-size: 1.1rem; font-weight: 600; }
+    .done { color: #4ade80; }
+    .pending { color: #e2a23c; }
+    .section { background: #1a1714; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; }
+    .section > h2 { font-size: 1.4rem; color: #ef5a3f; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .section > h2 .num { background: linear-gradient(135deg, #ef5a3f, #d92c69); color: white; width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+    .section > .intro { color: #bbb; margin-bottom: 1rem; font-size: 0.95rem; }
+    .step { background: #12100e; border-radius: 8px; padding: 1.2rem 1.4rem; margin-bottom: 0.75rem; border-left: 3px solid #333; }
+    .step.important { border-left-color: #ef5a3f; }
+    .step.godaddy { border-left-color: #00a4a6; }
+    .step h3 { font-size: 1.05rem; margin-bottom: 0.6rem; color: #fff; }
+    .step p, .step li { font-size: 0.9rem; color: #ccc; }
+    .step ol, .step ul { padding-left: 1.2rem; margin: 0.4rem 0; }
+    .step ol li { margin-bottom: 0.5rem; }
+    code { background: #2a2520; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85rem; color: #e2a23c; font-family: 'SF Mono', 'Fira Code', monospace; word-break: break-all; }
+    pre { background: #2a2520; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 0.5rem 0; font-size: 0.85rem; color: #f4eadc; font-family: 'SF Mono', 'Fira Code', monospace; line-height: 1.5; }
+    a { color: #ef5a3f; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .links a { background: #2a2520; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.85rem; }
+    .checkbox { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #2a2520; }
+    .checkbox:last-child { border-bottom: none; }
+    .checkbox input[type="checkbox"] { margin-top: 0.3rem; accent-color: #ef5a3f; width: 18px; height: 18px; flex-shrink: 0; }
+    .checkbox label { font-size: 0.95rem; cursor: pointer; }
+    .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+    .tag.required { background: #ef5a3f22; color: #ef5a3f; }
+    .tag.optional { background: #e2a23c22; color: #e2a23c; }
+    .tag.godaddy-tag { background: #00a4a622; color: #00a4a6; }
+    .summary { margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1714, #2a2520); border-radius: 12px; border: 1px solid #333; }
+    .summary h2 { color: #4ade80; margin-bottom: 1rem; }
+    .note { background: #2a2520; border-radius: 6px; padding: 0.8rem 1rem; margin: 0.5rem 0; font-size: 0.85rem; color: #e2a23c; border-left: 3px solid #e2a23c; }
+    .dns-table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; font-size: 0.85rem; }
+    .dns-table th { text-align: left; padding: 0.5rem; color: #e2a23c; border-bottom: 1px solid #333; font-weight: 600; }
+    .dns-table td { padding: 0.5rem; border-bottom: 1px solid #1a1714; color: #ccc; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.8rem; }
+    @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.6rem; } .section { padding: 1.2rem; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>La Tribu &mdash; Action Report</h1>
+    <p class="subtitle">Every step you need to complete, with exact click-by-click instructions. Domains are on GoDaddy.</p>
+
+    <div class="status-bar">
+      <div class="status-item">
+        <div class="label">GitHub Repo</div>
+        <div class="value done">Created</div>
+      </div>
+      <div class="status-item">
+        <div class="label">Supabase</div>
+        <div class="value done">Live</div>
+      </div>
+      <div class="status-item">
+        <div class="label">Vercel</div>
+        <div class="value done">Deployed</div>
+      </div>
+      <div class="status-item">
+        <div class="label">Frontend</div>
+        <div class="value done">5 Pages</div>
+      </div>
+      <div class="status-item">
+        <div class="label">Your Actions</div>
+        <div class="value pending">8 Sections</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 1: GitHub + Vercel -->
+    <!-- ============================================ -->
+    <div class="section">
+      <h2><span class="num">1</span> Connect GitHub to Vercel for Autodeploy <span class="tag required">Required</span></h2>
+      <p class="intro">Right now, deployments happen manually via CLI. This connects them so every <code>git push</code> to <code>main</code> auto-deploys your site.</p>
+
+      <div class="step important">
+        <h3>Open Vercel Git Settings</h3>
+        <ol>
+          <li>Open your browser and go to:<br><a href="https://vercel.com/raposoignacio-2477s-projects/latino-events/settings/git" target="_blank">https://vercel.com/raposoignacio-2477s-projects/latino-events/settings/git</a></li>
+          <li>If you're not logged in, log in with the same account you used for the CLI (the one tied to <code>raposo.ignacio@gmail.com</code>).</li>
+          <li>You should see a page titled <strong>"Git"</strong> under your project settings.</li>
+        </ol>
+      </div>
+
+      <div class="step important">
+        <h3>Connect the Repository</h3>
+        <ol>
+          <li>On that page, find the <strong>"Connected Git Repository"</strong> section. It should say "No repository connected" or similar.</li>
+          <li>Click the <strong>"Connect Git Repository"</strong> button.</li>
+          <li>A popup will appear asking you to select a Git provider. Click <strong>"GitHub"</strong>.</li>
+          <li>If this is your first time connecting GitHub to Vercel, a new tab/popup will open asking you to <strong>authorize the Vercel GitHub App</strong>. Click <strong>"Install"</strong> or <strong>"Authorize"</strong>.</li>
+          <li>You may be asked which repositories to grant access to. Select <strong>"Only select repositories"</strong> and pick <strong><code>latino-events-main</code></strong>. Then click <strong>"Install"</strong>.</li>
+          <li>Back in the Vercel popup, you should now see your repos listed. Find <strong><code>Ithelastghostl/latino-events-main</code></strong> and click on it.</li>
+          <li>It will ask you to confirm the production branch. Make sure it says <strong><code>main</code></strong>. If it doesn't, change it to <code>main</code>.</li>
+          <li>Click <strong>"Connect"</strong>.</li>
+        </ol>
+      </div>
+
+      <div class="step">
+        <h3>Verify It Works</h3>
+        <ol>
+          <li>The page should now show <strong>"Connected to Ithelastghostl/latino-events-main"</strong> with branch <code>main</code>.</li>
+          <li>To test: make any tiny change in the repo (even edit a comment), commit, and <code>git push</code>. Then check the Vercel dashboard &mdash; you should see a new deployment appear automatically within 30 seconds.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 2: Supabase Auth -->
+    <!-- ============================================ -->
+    <div class="section">
+      <h2><span class="num">2</span> Configure Supabase Auth (Magic Link Login) <span class="tag required">Required</span></h2>
+      <p class="intro">The past-events page lets users sign in with a magic link email to see event photos. Supabase Auth handles this, but you need to tell it which URLs are allowed.</p>
+
+      <div class="step important">
+        <h3>Set the Site URL</h3>
+        <ol>
+          <li>Open your browser and go to:<br><a href="https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud/auth/url-configuration" target="_blank">https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud/auth/url-configuration</a></li>
+          <li>Log in if prompted (use the account you created the Supabase project with).</li>
+          <li>You'll see a page titled <strong>"URL Configuration"</strong>.</li>
+          <li>In the <strong>"Site URL"</strong> field at the top, delete whatever is there and type:<br><code>https://www.latribu.co.uk</code></li>
+          <li>Click <strong>"Save"</strong>.</li>
+        </ol>
+      </div>
+
+      <div class="step important">
+        <h3>Add Redirect URLs</h3>
+        <ol>
+          <li>On the same page, scroll down to the <strong>"Redirect URLs"</strong> section.</li>
+          <li>Click <strong>"Add URL"</strong>.</li>
+          <li>Type: <code>https://www.latribu.co.uk/**</code> &mdash; then click <strong>"Add URL"</strong> to confirm.</li>
+          <li>Click <strong>"Add URL"</strong> again.</li>
+          <li>Type: <code>https://latino-events.vercel.app/**</code> &mdash; then click <strong>"Add URL"</strong> to confirm.</li>
+          <li>Click <strong>"Add URL"</strong> one more time.</li>
+          <li>Type: <code>http://localhost:*/**</code> &mdash; then click <strong>"Add URL"</strong> to confirm.</li>
+          <li>You should now see all three URLs listed. Click <strong>"Save"</strong> if there's a save button, or they may save automatically.</li>
+        </ol>
+        <div class="note">The <code>/**</code> wildcard means "any path on this domain". The <code>localhost</code> entry is for local development/testing.</div>
+      </div>
+
+      <div class="step important">
+        <h3>Verify Email Auth Is Enabled</h3>
+        <ol>
+          <li>In the left sidebar, click <strong>"Authentication"</strong>, then click <strong>"Providers"</strong> (or go directly to:<br><a href="https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud/auth/providers" target="_blank">https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud/auth/providers</a>)</li>
+          <li>You'll see a list of auth providers (Email, Phone, Google, etc.).</li>
+          <li>Click on <strong>"Email"</strong> to expand it.</li>
+          <li>Make sure the toggle at the top says <strong>"Enabled"</strong> (green). If it's off, click it to turn it on.</li>
+          <li>Make sure <strong>"Confirm email"</strong> is toggled <strong>ON</strong>. This is what sends the magic link.</li>
+          <li>Make sure <strong>"Secure email change"</strong> is toggled <strong>ON</strong>.</li>
+          <li>Leave everything else as default.</li>
+          <li>Click <strong>"Save"</strong>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 3: Images -->
+    <!-- ============================================ -->
+    <div class="section">
+      <h2><span class="num">3</span> Generate All Images <span class="tag required">Required</span></h2>
+      <p class="intro">The site references 22 images that don't exist yet. Without them, you'll see broken image placeholders. You can use AI image generation (ChatGPT/DALL-E, Midjourney, etc.) or real photos.</p>
+
+      <div class="step important">
+        <h3>Where to find the prompts</h3>
+        <ol>
+          <li>Open the file <code>USER_TASKS/image-prompts.md</code> in your code editor (VS Code, etc.).</li>
+          <li>It contains a ready-to-paste prompt for every single image, organized by category.</li>
+          <li>Each prompt specifies the exact filename and dimensions.</li>
+        </ol>
+      </div>
+
+      <div class="step important">
+        <h3>How to generate images with ChatGPT (DALL-E)</h3>
+        <ol>
+          <li>Go to <a href="https://chatgpt.com" target="_blank">chatgpt.com</a> and start a new chat.</li>
+          <li>Copy a prompt from <code>image-prompts.md</code> and paste it into ChatGPT.</li>
+          <li>ChatGPT will generate the image. Click the image to expand it, then click the <strong>download button</strong> (down arrow icon).</li>
+          <li>The downloaded file will probably be a <code>.png</code>. That's fine for now.</li>
+          <li>Rename the file to match the exact filename in the prompt (e.g., <code>hero-bg.webp</code>).</li>
+          <li>Move it into the <code>images/</code> folder in your project.</li>
+          <li>Repeat for all images.</li>
+        </ol>
+        <div class="note">If ChatGPT gives you PNG files, you can convert them to WebP later for smaller file sizes (optional, the site will work with PNGs too &mdash; just keep the <code>.webp</code> extension or update the HTML). Alternatively, use an online converter like <a href="https://cloudconvert.com/png-to-webp" target="_blank">cloudconvert.com/png-to-webp</a>.</div>
+      </div>
+
+      <div class="step">
+        <h3>Full list of images needed</h3>
+        <pre>images/hero-bg.webp          &larr; Hero background (1920&times;1080)
+images/community.webp        &larr; Community section photo (800&times;600)
+images/event-salsa.webp      &larr; Event card image (600&times;400)
+images/event-reggaeton.webp  &larr; Event card image (600&times;400)
+images/event-bachata.webp    &larr; Event card image (600&times;400)
+images/event-brunch.webp     &larr; Event card image (600&times;400)
+images/dj-1.webp             &larr; DJ portrait (400&times;400)
+images/dj-2.webp             &larr; DJ portrait (400&times;400)
+images/dj-3.webp             &larr; DJ portrait (400&times;400)
+images/dj-4.webp             &larr; DJ portrait (400&times;400)
+images/gallery-1.webp        &larr; Gallery photo (mixed sizes)
+images/gallery-2.webp
+images/gallery-3.webp
+images/gallery-4.webp
+images/gallery-5.webp
+images/gallery-6.webp
+images/gallery-7.webp
+images/gallery-8.webp
+images/venue-hero.webp       &larr; Venue page hero (1200&times;600)
+images/whatsapp-qr.webp      &larr; WhatsApp QR code (300&times;300) — see Section 5
+images/logo.webp             &larr; Logo for light backgrounds
+images/logo-white.webp       &larr; Logo for dark backgrounds</pre>
+      </div>
+
+      <div class="step">
+        <h3>After generating all images: push to GitHub</h3>
+        <ol>
+          <li>Open your terminal.</li>
+          <li><code>cd</code> to the project folder:<br><code>cd ~/projects/latino-events</code></li>
+          <li>Run these three commands one after the other:</li>
+        </ol>
+        <pre>git add images/
+git commit -m "Add generated images"
+git push</pre>
+        <p>If you connected GitHub to Vercel (Section 1), the site will auto-redeploy with the new images.</p>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 4: Fatsoma -->
+    <!-- ============================================ -->
+    <div class="section">
+      <h2><span class="num">4</span> Replace Fatsoma Placeholder URLs <span class="tag required">Required</span></h2>
+      <p class="intro">All "Get Your Tickets" buttons currently link to a placeholder. You need to swap in your real Fatsoma event URLs.</p>
+
+      <div class="step important">
+        <h3>How to get your Fatsoma event URLs</h3>
+        <ol>
+          <li>Go to <a href="https://www.fatsoma.com" target="_blank">fatsoma.com</a> and log in to your promoter account.</li>
+          <li>Go to your event page. The URL in your browser bar is what you need. It looks like:<br><code>https://www.fatsoma.com/e/abc123/your-event-name</code></li>
+          <li>Copy this URL.</li>
+        </ol>
+      </div>
+
+      <div class="step important">
+        <h3>How to replace the placeholders</h3>
+        <ol>
+          <li>Open <code>index.html</code> in your code editor (VS Code, Sublime, etc.).</li>
+          <li>Press <strong>Ctrl+H</strong> (Windows/Linux) or <strong>Cmd+H</strong> (Mac) to open Find and Replace.</li>
+          <li>In the <strong>"Find"</strong> field, paste: <code>https://www.fatsoma.com/e/placeholder</code></li>
+          <li>In the <strong>"Replace"</strong> field, paste your real Fatsoma URL.</li>
+          <li>Click <strong>"Replace All"</strong> if all events go to the same link. If each event card has a different URL, click <strong>"Replace"</strong> one at a time and paste the correct URL for each.</li>
+          <li>Save the file (<strong>Ctrl+S</strong> / <strong>Cmd+S</strong>).</li>
+          <li>Repeat for any other HTML files that have ticket links (<code>promotions.html</code>, etc.).</li>
+        </ol>
+      </div>
+
+      <div class="step">
+        <h3>To find all files with placeholder links (terminal)</h3>
+        <pre>cd ~/projects/latino-events
+grep -rn "fatsoma.com/e/placeholder" *.html</pre>
+        <p>This shows every file and line number where the placeholder appears.</p>
+      </div>
+
+      <div class="step">
+        <h3>After replacing: push to GitHub</h3>
+        <pre>git add *.html
+git commit -m "Replace Fatsoma placeholder URLs with real event links"
+git push</pre>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 5: WhatsApp -->
+    <!-- ============================================ -->
+    <div class="section">
+      <h2><span class="num">5</span> Set Up WhatsApp Group Link + QR Code <span class="tag required">Required</span></h2>
+      <p class="intro">The site has a WhatsApp QR code and link that currently go to a placeholder. You need a real WhatsApp group and its invite link.</p>
+
+      <div class="step important">
+        <h3>Create the WhatsApp group (skip if you already have one)</h3>
+        <ol>
+          <li>Open <strong>WhatsApp</strong> on your phone.</li>
+          <li>Tap the <strong>"+"</strong> button (or the green chat button), then tap <strong>"New group"</strong>.</li>
+          <li>Add at least one contact (you can remove them later). Tap <strong>"Next"</strong>.</li>
+          <li>Name the group <strong>"La Tribu London"</strong> (or whatever you want).</li>
+          <li>Optionally add a group photo. Tap the <strong>green checkmark</strong> to create it.</li>
+        </ol>
+      </div>
+
+      <div class="step important">
+        <h3>Get the group invite link</h3>
+        <ol>
+          <li>Open the group chat you just created.</li>
+          <li>Tap the <strong>group name</strong> at the top to open group info.</li>
+          <li>Scroll down and tap <strong>"Invite via link"</strong>.</li>
+          <li>Tap <strong>"Copy link"</strong>. The link looks like: <code>https://chat.whatsapp.com/AbCdEfGhIjK</code></li>
+          <li>Paste this link somewhere you can access on your computer (email it to yourself, paste in a note, etc.).</li>
+        </ol>
+      </div>
+
+      <div class="step important">
+        <h3>Generate a QR code from the link</h3>
+        <ol>
+          <li>On your computer, open <a href="https://www.qr-code-generator.com/" target="_blank">qr-code-generator.com</a> (or any QR generator you trust).</li>
+          <li>Select <strong>"URL"</strong> as the type.</li>
+          <li>Paste your WhatsApp invite link into the URL field.</li>
+          <li>Click <strong>"Generate"</strong> or <strong>"Create QR Code"</strong>.</li>
+          <li>Download the QR code as a <strong>PNG</strong> image.</li>
+          <li>Rename the file to <code>whatsapp-qr.webp</code> (or convert it to WebP first).</li>
+          <li>Move it to the <code>images/</code> folder in your project, replacing the placeholder.</li>
+        </ol>
+      </div>
+
+      <div class="step important">
+        <h3>Replace the placeholder link in the HTML</h3>
+        <ol>
+          <li>Open your code editor.</li>
+          <li>Press <strong>Ctrl+Shift+F</strong> (VS Code: search across all files) or <strong>Ctrl+H</strong> in each file.</li>
+          <li><strong>Find:</strong> <code>https://chat.whatsapp.com/placeholder</code></li>
+          <li><strong>Replace:</strong> your real WhatsApp link (e.g., <code>https://chat.whatsapp.com/AbCdEfGhIjK</code>)</li>
+          <li>Click <strong>"Replace All"</strong>.</li>
+          <li>Save all files.</li>
+        </ol>
+      </div>
+
+      <div class="step">
+        <h3>Push changes</h3>
+        <pre>git add images/whatsapp-qr.webp *.html
+git commit -m "Add WhatsApp QR code and real group link"
+git push</pre>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 6: Resend -->
+    <!-- ============================================ -->
+    <div class="section">
+      <h2><span class="num">6</span> Set Up Resend Email Marketing <span class="tag required">Required</span></h2>
+      <p class="intro">Email collection already works &mdash; when someone enters their email on the site, it's saved to Supabase. Resend is the service that will <em>send</em> emails to those subscribers (welcome emails, event announcements, promos). Free tier: 3,000 emails/month.</p>
+
+      <!-- 6.1 Create Account -->
+      <div class="step important">
+        <h3>Step 6.1 &mdash; Create a Resend account</h3>
+        <ol>
+          <li>Open your browser and go to: <a href="https://resend.com/signup" target="_blank">https://resend.com/signup</a></li>
+          <li>Click <strong>"Sign up with GitHub"</strong> (easiest since you already have a GitHub account) &mdash; or use email/Google.</li>
+          <li>If you chose GitHub: a popup will ask you to authorize Resend. Click <strong>"Authorize resend"</strong>.</li>
+          <li>You'll land on the Resend dashboard. You now have an account.</li>
+        </ol>
+      </div>
+
+      <!-- 6.2 Add Domain -->
+      <div class="step important">
+        <h3>Step 6.2 &mdash; Add your domain to Resend</h3>
+        <ol>
+          <li>In the Resend dashboard, look at the left sidebar. Click <strong>"Domains"</strong>.</li>
+          <li>Click the <strong>"Add Domain"</strong> button (top right).</li>
+          <li>In the text field, type: <code>latribu.co.uk</code></li>
+          <li>For "Region", leave the default (usually <strong>"US East (N. Virginia) / us-east-1"</strong>) unless you have a reason to change it.</li>
+          <li>Click <strong>"Add"</strong>.</li>
+          <li>Resend will now show you a page titled something like <strong>"Verify latribu.co.uk"</strong>. This page lists <strong>DNS records you need to add</strong>. <strong>Do NOT close this page.</strong> Keep it open &mdash; you'll need it for the next step.</li>
+          <li>You'll see a table with rows like this (the exact values will be different &mdash; copy from YOUR screen, not from this guide):</li>
+        </ol>
+        <table class="dns-table">
+          <tr><th>Type</th><th>Name / Host</th><th>Value</th><th>Priority</th></tr>
+          <tr><td>TXT</td><td>resend._domainkey</td><td><em>(a long string starting with <code>p=</code>)</em></td><td>&mdash;</td></tr>
+          <tr><td>TXT</td><td>@</td><td>v=spf1 include:amazonses.com ~all</td><td>&mdash;</td></tr>
+          <tr><td>MX</td><td>bounce</td><td>feedback-smtp.us-east-1.amazonses.com</td><td>10</td></tr>
+        </table>
+        <div class="note">The MX record is optional &mdash; it's only needed if you want to handle bounce/reply emails. The two TXT records are required.</div>
+      </div>
+
+      <!-- 6.3 Add DNS records in Vercel -->
+      <div class="step important">
+        <h3>Step 6.3 &mdash; Add the DNS records in Vercel (your DNS is managed here, not GoDaddy)</h3>
+        <div class="note"><strong>Why Vercel and not GoDaddy?</strong> Your domain <code>latribu.co.uk</code> is <em>registered</em> at GoDaddy, but the nameservers point to Vercel. This means Vercel controls all DNS records. GoDaddy will show "DNS is managed elsewhere" and won't let you edit records there. All DNS changes go through the Vercel dashboard.</div>
+        <p style="margin-top: 1rem;"><strong>Keep the Resend page open in one tab. Open Vercel in a new tab.</strong></p>
+        <ol>
+          <li>Go to: <a href="https://vercel.com/raposoignacio-2477s-projects/latino-events/settings/domains" target="_blank">https://vercel.com/raposoignacio-2477s-projects/latino-events/settings/domains</a></li>
+          <li>If you're not logged in, log in with your Vercel account.</li>
+          <li>You should see your domain(s) listed (e.g., <code>latribu.co.uk</code> or <code>www.latribu.co.uk</code>).</li>
+          <li>Click on <strong><code>latribu.co.uk</code></strong> (the root domain, without <code>www</code>). This takes you to the domain's DNS management page.</li>
+          <li>If that doesn't take you to DNS records, try going directly to: <a href="https://vercel.com/teams/raposoignacio-2477s-projects/domains/latribu.co.uk" target="_blank">https://vercel.com/teams/raposoignacio-2477s-projects/domains/latribu.co.uk</a></li>
+          <li>You should see a page with a list of DNS records and an <strong>"Add Record"</strong> button or form at the top.</li>
+        </ol>
+
+        <p style="margin-top: 1.2rem;"><strong>Add the first TXT record (DKIM):</strong></p>
+        <ol>
+          <li>At the top of the DNS records page, you'll see a form with dropdowns/fields. Set the <strong>"Type"</strong> dropdown to <strong>TXT</strong>.</li>
+          <li>In the <strong>"Name"</strong> field, type: <code>resend._domainkey</code></li>
+          <li>In the <strong>"Value"</strong> field, go to the <strong>Resend tab</strong> in your browser. Find the first row in the DNS records table (the DKIM one). It has a long value starting with something like <code>p=MIGfMA0GCS...</code>. Click the <strong>copy icon</strong> next to it (or manually select and copy the entire value).</li>
+          <li>Go back to the Vercel tab and <strong>paste</strong> that value into the "Value" field.</li>
+          <li>Click <strong>"Add"</strong>.</li>
+          <li>The record should appear in the list below.</li>
+        </ol>
+
+        <p style="margin-top: 1.2rem;"><strong>Add the second TXT record (SPF):</strong></p>
+        <ol>
+          <li>Set the <strong>"Type"</strong> dropdown to <strong>TXT</strong> again.</li>
+          <li>In the <strong>"Name"</strong> field, type: <code>@</code></li>
+          <li>In the <strong>"Value"</strong> field, type exactly: <code>v=spf1 include:amazonses.com ~all</code></li>
+          <li>Click <strong>"Add"</strong>.</li>
+        </ol>
+        <div class="note"><strong>Important:</strong> Look at the existing DNS records in the list. If you already see a TXT record with Name <code>@</code> that starts with <code>v=spf1</code>, do NOT add a new one. Instead, click the <strong>three dots (&hellip;)</strong> or <strong>edit icon</strong> next to the existing record, and add <code>include:amazonses.com</code> before the <code>~all</code>. For example, change <code>v=spf1 include:vercel.com ~all</code> to <code>v=spf1 include:vercel.com include:amazonses.com ~all</code>. Then click <strong>"Save"</strong>. You can only have ONE SPF record per domain &mdash; having two will cause email delivery failures.</div>
+
+        <p style="margin-top: 1.2rem;"><strong>Add the MX record (optional, for bounce handling):</strong></p>
+        <ol>
+          <li>Set the <strong>"Type"</strong> dropdown to <strong>MX</strong>.</li>
+          <li>In the <strong>"Name"</strong> field, type: <code>bounce</code></li>
+          <li>In the <strong>"Value"</strong> field, type: <code>feedback-smtp.us-east-1.amazonses.com</code></li>
+          <li>In the <strong>"Priority"</strong> field (should appear for MX records), type: <code>10</code></li>
+          <li>Click <strong>"Add"</strong>.</li>
+        </ol>
+        <div class="note">The MX record is optional. It handles bounce notifications (emails that couldn't be delivered). You can skip it for now and add it later.</div>
+      </div>
+
+      <!-- 6.4 Verify -->
+      <div class="step important">
+        <h3>Step 6.4 &mdash; Verify the domain in Resend</h3>
+        <ol>
+          <li>Go back to the Resend tab (the "Verify latribu.co.uk" page).</li>
+          <li>Click the <strong>"Verify DNS Records"</strong> button.</li>
+          <li>If DNS has propagated, each record will show a <strong>green checkmark</strong>. This can take anywhere from <strong>1 minute to 48 hours</strong>, but usually completes within 5&ndash;10 minutes.</li>
+          <li>If some records still show as pending, wait a few minutes and click <strong>"Verify"</strong> again.</li>
+          <li>Once all records are green, the domain status will change to <strong>"Verified"</strong>. You can now send emails from any address <code>@latribu.co.uk</code>.</li>
+        </ol>
+      </div>
+
+      <!-- 6.5 API Key -->
+      <div class="step important">
+        <h3>Step 6.5 &mdash; Create a Resend API key</h3>
+        <ol>
+          <li>In the Resend left sidebar, click <strong>"API Keys"</strong>.</li>
+          <li>Click <strong>"Create API Key"</strong> (top right).</li>
+          <li>In the form that appears:
+            <ul>
+              <li><strong>Name:</strong> type <code>la-tribu-production</code></li>
+              <li><strong>Permission:</strong> select <strong>"Sending access"</strong> (NOT "Full access" &mdash; we only need to send emails)</li>
+              <li><strong>Domain:</strong> select <strong><code>latribu.co.uk</code></strong> from the dropdown</li>
+            </ul>
+          </li>
+          <li>Click <strong>"Create"</strong>.</li>
+          <li>A popup will show your API key. It looks like: <code>re_AbCdEfGh_1234567890abcdef</code></li>
+          <li><strong>Copy this key immediately</strong> and save it somewhere safe (a password manager, a secure note, etc.). Resend will never show it again.</li>
+        </ol>
+      </div>
+
+      <!-- 6.6 Store in Supabase -->
+      <div class="step important">
+        <h3>Step 6.6 &mdash; Store the API key in Supabase as a secret</h3>
+        <p>The API key must be stored as a "secret" in Supabase so the Edge Function can use it without the key being visible in your code.</p>
+
+        <p style="margin-top: 0.8rem;"><strong>Option A &mdash; Via the Supabase Dashboard (easiest):</strong></p>
+        <ol>
+          <li>Go to: <a href="https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud/settings/functions" target="_blank">https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud/settings/functions</a></li>
+          <li>Scroll down to <strong>"Edge Function Secrets"</strong> (or look for a section called "Secrets").</li>
+          <li>Click <strong>"Add new secret"</strong>.</li>
+          <li>For <strong>"Name"</strong>, type exactly: <code>RESEND_API_KEY</code></li>
+          <li>For <strong>"Value"</strong>, paste the API key you copied in Step 6.5 (the <code>re_...</code> string).</li>
+          <li>Click <strong>"Save"</strong>.</li>
+        </ol>
+
+        <p style="margin-top: 0.8rem;"><strong>Option B &mdash; Via the terminal:</strong></p>
+        <ol>
+          <li>Open your terminal.</li>
+          <li>Install the Supabase CLI if you don't have it:<br><code>npm install -g supabase</code></li>
+          <li>Link to your project:<br><code>supabase link --project-ref iialbhtgugmkmbrhwlud</code></li>
+          <li>It will ask for your database password. Enter the password you set when creating the Supabase project. If you forgot it, you can reset it in the Supabase dashboard under Settings &rarr; Database.</li>
+          <li>Set the secret:<br><code>supabase secrets set RESEND_API_KEY=re_YOUR_KEY_HERE</code><br>(Replace <code>re_YOUR_KEY_HERE</code> with your actual key.)</li>
+        </ol>
+      </div>
+
+      <!-- 6.7 Edge Function -->
+      <div class="step">
+        <h3>Step 6.7 &mdash; Ask Claude to deploy the welcome email Edge Function</h3>
+        <ol>
+          <li>Once you've completed Steps 6.1&ndash;6.6, come back to Claude and say:<br><em>"Deploy the Resend welcome email Edge Function and set up the database webhook."</em></li>
+          <li>Claude will create and deploy a Supabase Edge Function that:
+            <ul>
+              <li>Listens for new rows in the <code>subscribers</code> table</li>
+              <li>Sends a welcome email via the Resend API</li>
+              <li>Uses the <code>RESEND_API_KEY</code> secret you just stored</li>
+            </ul>
+          </li>
+          <li>Claude will also set up the database webhook that triggers the function automatically.</li>
+        </ol>
+        <div class="note">You don't need to write any code yourself for this step. Just tell Claude and it will handle it.</div>
+      </div>
+
+      <!-- 6.8 Future Campaigns -->
+      <div class="step">
+        <h3>Step 6.8 &mdash; Sending email campaigns (future)</h3>
+        <p>When you want to send a blast to all subscribers (event announcement, promo, etc.):</p>
+        <ol>
+          <li>In the Resend dashboard, click <strong>"Audiences"</strong> in the left sidebar.</li>
+          <li>Click <strong>"Create Audience"</strong>. Name it <strong>"La Tribu Subscribers"</strong>.</li>
+          <li>To get your subscriber list: go to the <a href="https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud/sql/new" target="_blank">Supabase SQL Editor</a> and run:</li>
+        </ol>
+        <pre>SELECT email FROM subscribers ORDER BY subscribed_at DESC;</pre>
+        <ol start="4">
+          <li>Click the <strong>"Download CSV"</strong> button (or copy the emails manually).</li>
+          <li>Back in Resend &rarr; Audiences &rarr; your audience, click <strong>"Import contacts"</strong> and upload the CSV.</li>
+          <li>Go to <strong>"Broadcasts"</strong> &rarr; <strong>"Create Broadcast"</strong>.</li>
+          <li>Select your audience, write your email, and send.</li>
+        </ol>
+        <div class="note">Resend handles unsubscribe links, open tracking, and click tracking automatically.</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 7: Custom Domain DNS -->
+    <!-- ============================================ -->
+    <div class="section">
+      <h2><span class="num">7</span> Custom Domain DNS <span class="tag optional">Likely already done</span></h2>
+      <p class="intro">Your nameservers already point to Vercel (that's why GoDaddy says "DNS is managed elsewhere"). This means Vercel handles all DNS. The domain is likely already working.</p>
+
+      <div class="step important">
+        <h3>Check if it's already working</h3>
+        <ol>
+          <li>Open your browser and go to: <a href="https://www.latribu.co.uk" target="_blank">https://www.latribu.co.uk</a></li>
+          <li>If the site loads &mdash; <strong>you're done, skip this entire section.</strong></li>
+          <li>If you get a "site can't be reached" or DNS error, continue below.</li>
+        </ol>
+      </div>
+
+      <div class="step">
+        <h3>If the domain doesn't work: verify it in Vercel</h3>
+        <ol>
+          <li>Go to: <a href="https://vercel.com/raposoignacio-2477s-projects/latino-events/settings/domains" target="_blank">https://vercel.com/raposoignacio-2477s-projects/latino-events/settings/domains</a></li>
+          <li>Check if <code>www.latribu.co.uk</code> and <code>latribu.co.uk</code> are listed.</li>
+          <li>If they are not listed:
+            <ol>
+              <li>Click <strong>"Add Domain"</strong>.</li>
+              <li>Type <code>www.latribu.co.uk</code> and click <strong>"Add"</strong>.</li>
+              <li>Vercel may ask if you want to redirect <code>latribu.co.uk</code> &rarr; <code>www.latribu.co.uk</code>. Select <strong>"Yes, add recommended"</strong> (this adds both and redirects the bare domain to <code>www</code>).</li>
+            </ol>
+          </li>
+          <li>If they are listed but show an error (red/yellow status):
+            <ol>
+              <li>Click on the domain with the error.</li>
+              <li>Vercel will show what DNS records are expected. Since Vercel manages your DNS, these should configure automatically. If they don't, you may need to wait a few minutes and refresh.</li>
+            </ol>
+          </li>
+          <li>Once both domains show a <strong>green checkmark</strong>, the site is live at both <code>latribu.co.uk</code> and <code>www.latribu.co.uk</code>.</li>
+        </ol>
+        <div class="note">Since your nameservers already point to Vercel, you do NOT need to add any A or CNAME records manually &mdash; Vercel manages these automatically when you add the domain to your project. This is different from the old instructions that mentioned adding records in GoDaddy.</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SECTION 8: Past Events Data -->
+    <!-- ============================================ -->
+    <div class="section">
+      <h2><span class="num">8</span> Add Past Events to the Database <span class="tag optional">When ready</span></h2>
+      <p class="intro">The past-events page pulls data from Supabase. Right now the database is empty, so the page will show no events. Here's how to add them.</p>
+
+      <div class="step important">
+        <h3>Add an event via the Supabase Dashboard</h3>
+        <ol>
+          <li>Go to: <a href="https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud/editor" target="_blank">https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud/editor</a></li>
+          <li>In the left sidebar, click on the table <strong><code>past_events</code></strong>.</li>
+          <li>Click the <strong>"Insert row"</strong> button (top right, green button with a "+" icon).</li>
+          <li>Fill in the fields:
+            <ul>
+              <li><strong>id:</strong> leave blank (auto-generated)</li>
+              <li><strong>title:</strong> e.g., <code>Noche de Salsa Vol. 1</code></li>
+              <li><strong>description:</strong> e.g., <code>Our first ever event — 200 people dancing until 3am at The Lighthouse in Shoreditch.</code></li>
+              <li><strong>date:</strong> e.g., <code>2026-03-15</code> (YYYY-MM-DD format)</li>
+              <li><strong>venue:</strong> e.g., <code>The Lighthouse, Shoreditch</code></li>
+              <li><strong>cover_image_url:</strong> a URL to the event's cover photo (you can upload images to Supabase Storage or use any image hosting). Leave blank if you don't have one yet.</li>
+              <li><strong>created_at:</strong> leave blank (auto-generated)</li>
+            </ul>
+          </li>
+          <li>Click <strong>"Save"</strong> (or the checkmark button).</li>
+          <li>The event will now appear on the past-events page of your site.</li>
+        </ol>
+      </div>
+
+      <div class="step">
+        <h3>Add photos for an event</h3>
+        <ol>
+          <li>First, you need the <strong>event ID</strong>. In the table editor, find the event you just added. The <strong><code>id</code></strong> column shows a long string like <code>a1b2c3d4-e5f6-7890-abcd-ef1234567890</code>. Copy it.</li>
+          <li>In the left sidebar, click on <strong><code>past_event_photos</code></strong>.</li>
+          <li>Click <strong>"Insert row"</strong>.</li>
+          <li>Fill in:
+            <ul>
+              <li><strong>id:</strong> leave blank</li>
+              <li><strong>event_id:</strong> paste the event ID you copied</li>
+              <li><strong>image_url:</strong> URL of the photo</li>
+              <li><strong>caption:</strong> optional description of the photo</li>
+              <li><strong>created_at:</strong> leave blank</li>
+            </ul>
+          </li>
+          <li>Click <strong>"Save"</strong>.</li>
+          <li>Repeat for each photo in that event.</li>
+        </ol>
+        <div class="note">Photos are only visible to signed-in users. When someone visits past-events.html and signs in with their email (magic link), the photos will appear.</div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CHECKLIST -->
+    <!-- ============================================ -->
+    <div class="summary">
+      <h2>Master Checklist</h2>
+      <div class="checkbox"><input type="checkbox" id="c1"><label for="c1"><strong>Section 1:</strong> Connect GitHub repo to Vercel for autodeploy</label></div>
+      <div class="checkbox"><input type="checkbox" id="c2a"><label for="c2a"><strong>Section 2:</strong> Set Supabase Site URL to <code>https://www.latribu.co.uk</code></label></div>
+      <div class="checkbox"><input type="checkbox" id="c2b"><label for="c2b"><strong>Section 2:</strong> Add the three redirect URLs in Supabase</label></div>
+      <div class="checkbox"><input type="checkbox" id="c2c"><label for="c2c"><strong>Section 2:</strong> Verify Email auth is enabled with "Confirm email" on</label></div>
+      <div class="checkbox"><input type="checkbox" id="c3"><label for="c3"><strong>Section 3:</strong> Generate all 22 images and push to GitHub</label></div>
+      <div class="checkbox"><input type="checkbox" id="c4" checked disabled><label for="c4"><strong>Section 4:</strong> <s>Replace all Fatsoma placeholder URLs</s> &mdash; DONE</label></div>
+      <div class="checkbox"><input type="checkbox" id="c5a"><label for="c5a"><strong>Section 5:</strong> Create WhatsApp group and get invite link</label></div>
+      <div class="checkbox"><input type="checkbox" id="c5b"><label for="c5b"><strong>Section 5:</strong> Generate QR code and save as <code>images/whatsapp-qr.webp</code></label></div>
+      <div class="checkbox"><input type="checkbox" id="c5c"><label for="c5c"><strong>Section 5:</strong> Replace WhatsApp placeholder links in HTML</label></div>
+      <div class="checkbox"><input type="checkbox" id="c6a"><label for="c6a"><strong>Section 6:</strong> Create Resend account</label></div>
+      <div class="checkbox"><input type="checkbox" id="c6b"><label for="c6b"><strong>Section 6:</strong> Add domain <code>latribu.co.uk</code> in Resend</label></div>
+      <div class="checkbox"><input type="checkbox" id="c6c"><label for="c6c"><strong>Section 6:</strong> Add DKIM (TXT) record in <strong>Vercel DNS</strong></label></div>
+      <div class="checkbox"><input type="checkbox" id="c6d"><label for="c6d"><strong>Section 6:</strong> Add/update SPF (TXT) record in <strong>Vercel DNS</strong></label></div>
+      <div class="checkbox"><input type="checkbox" id="c6e"><label for="c6e"><strong>Section 6:</strong> Add bounce MX record in <strong>Vercel DNS</strong> (optional)</label></div>
+      <div class="checkbox"><input type="checkbox" id="c6f"><label for="c6f"><strong>Section 6:</strong> Verify domain in Resend (green checkmarks)</label></div>
+      <div class="checkbox"><input type="checkbox" id="c6g"><label for="c6g"><strong>Section 6:</strong> Create Resend API key (<code>la-tribu-production</code>)</label></div>
+      <div class="checkbox"><input type="checkbox" id="c6h"><label for="c6h"><strong>Section 6:</strong> Store API key as <code>RESEND_API_KEY</code> secret in Supabase</label></div>
+      <div class="checkbox"><input type="checkbox" id="c6i"><label for="c6i"><strong>Section 6:</strong> Ask Claude to deploy the welcome email Edge Function</label></div>
+      <div class="checkbox"><input type="checkbox" id="c7"><label for="c7"><strong>Section 7:</strong> Verify <code>www.latribu.co.uk</code> loads (check Vercel domain settings if not)</label></div>
+      <div class="checkbox"><input type="checkbox" id="c8"><label for="c8"><strong>Section 8:</strong> Add at least one past event to Supabase (when ready)</label></div>
+    </div>
+
+    <div class="links">
+      <a href="https://github.com/Ithelastghostl/latino-events-main" target="_blank">GitHub Repo</a>
+      <a href="https://www.latribu.co.uk" target="_blank">Live Site</a>
+      <a href="https://vercel.com/raposoignacio-2477s-projects/latino-events" target="_blank">Vercel Dashboard</a>
+      <a href="https://supabase.com/dashboard/project/iialbhtgugmkmbrhwlud" target="_blank">Supabase Dashboard</a>
+      <a href="https://vercel.com/raposoignacio-2477s-projects/latino-events/settings/domains" target="_blank">Vercel DNS / Domains</a>
+      <a href="https://resend.com/domains" target="_blank">Resend Dashboard</a>
+    </div>
+
+    <p style="margin-top: 2rem; font-size: 0.8rem; color: #666; text-align: center;">Generated by Claude &mdash; 2026-05-28</p>
+  </div>
+</body>
+</html>

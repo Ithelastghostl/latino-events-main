@@ -263,6 +263,13 @@ body.nav-open .nav-toggle span:nth-child(3) {
   box-shadow: var(--shadow-glow);
 }
 
+.cta-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  cursor: default;
+  box-shadow: none;
+}
+
 .secondary-cta {
   color: var(--cream);
   border: 1px solid rgba(244, 234, 220, 0.65);

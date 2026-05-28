@@ -748,7 +748,7 @@ textarea:focus {
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 900px) {
   .nav-inner {
     min-height: 64px;
   }
@@ -773,10 +773,14 @@ textarea:focus {
     background: rgba(18, 16, 14, 0.97);
     transform: translateX(100%);
     transition: transform 0.3s ease;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   body.nav-open .nav-links {
     transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .nav-links a {

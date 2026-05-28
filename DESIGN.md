@@ -5,9 +5,9 @@
 | Token       | Hex       | Usage                          |
 |-------------|-----------|--------------------------------|
 | `--charcoal`| `#12100e` | Backgrounds, text              |
-| `--coral`   | `#ef5a3f` | Primary CTA, accents           |
+| `--coral`   | `#ef5a3f` | Primary CTA, **text accent color (orange)**, button fills |
 | `--magenta` | `#d92c69` | Secondary accent, gradients    |
-| `--gold`    | `#e2a23c` | Highlights, badges             |
+| `--gold`    | `#e2a23c` | Highlights, badges (dark variant #8a6518 on light bg) |
 | `--cream`   | `#f4eadc` | Light backgrounds, body text   |
 | `--white`   | `#fff8ec` | Page background, card surfaces |
 
@@ -22,11 +22,13 @@
 |----------|---------------|------------|------------------------------|
 | Display  | Bebas Neue    | 400        | H1, H2, nav links, hero text|
 | Body     | Inter         | 400, 600   | Paragraphs, form labels, UI |
-| Script   | Pacifico      | 400        | Accent text, taglines        |
+| Script   | Pacifico      | 400        | Accent text (in orange/coral), taglines, subtitles |
 
 ### Scale
 
-- Hero heading: `clamp(3rem, 8vw, 6rem)`
+- Hero title ("LA TRIBU"): `20vh` (~20% of hero height)
+- Hero subtitle (Pacifico accent): `10vh` (~10% of hero height)
+- Hero heading (generic): `clamp(3rem, 8vw, 6rem)`
 - Section heading (H2): `clamp(2rem, 5vw, 3.5rem)`
 - Subheading (H3): `1.5rem`
 - Body: `1rem` (16px)
@@ -55,9 +57,11 @@
 
 ### Buttons
 
-- **Primary CTA**: gradient background (coral → magenta), white text, `border-radius: 50px`, padding `1rem 2.5rem`, uppercase Bebas Neue
+- **Shape**: squared with small chamfer, `border-radius: 6px` (NOT pill-shaped)
+- **Primary CTA**: coral/orange solid fill, white text, padding `1rem 2rem`, uppercase Bebas Neue
+- **Secondary CTA**: charcoal fill, cream outline, white text
 - **Hover**: slight scale (`1.05`) + box-shadow
-- **Secondary**: outlined, cream border on dark bg
+- **Icons**: inline SVG icons next to button text (arrow for navigation CTAs, people icon for community CTAs)
 
 ### Cards (Event Cards)
 
@@ -88,7 +92,7 @@
 
 ## Imagery
 
-- Hero: full-bleed background with dark overlay (`rgba(0,0,0,0.5)`)
+- Hero: full-bleed background image, gradient overlay dark (left) to transparent (right), content left-aligned, red stamp logo in bottom-right corner
 - Event cards: 16:9 ratio cover images
 - Gallery: CSS grid masonry-style layout
 - All images should feel warm, energetic, community-focused

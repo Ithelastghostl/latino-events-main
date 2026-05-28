@@ -7,14 +7,14 @@
     <meta name="description" content="La Tribu — London's Latin night. Reggaeton, dembow, baile funk, tequila, and a dancefloor that doesn't stop.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="/js/supabase-client.js"></script>
   </head>
   <body>
     <header class="site-nav">
-      <div class="container nav-inner">
+      <div class="nav-inner">
         <a class="brand" href="index.html" aria-label="La Tribu home"><img class="brand-logo" src="images/logo-nav.svg" alt="La Tribu"></a>
         <nav class="nav-links" aria-label="Primary navigation">
           <a class="active" href="index.html" aria-current="page">Home</a>
@@ -30,88 +30,139 @@
       </div>
     </header>
 
-    <main>
+    <main class="page">
+
+      <!-- Hero -->
       <section class="hero">
         <img class="hero-bg" src="images/event-bachata.webp" alt="" aria-hidden="true">
         <div class="hero-overlay"></div>
-        <div class="container hero-content">
-          <img class="hero-stamp" src="images/logo-stamp-red.svg" alt="" aria-hidden="true">
+        <div class="hero-content">
           <h1 class="hero-title">LA TRIBU</h1>
           <p class="hero-subtitle">Latinx Events in London</p>
+          <p class="hero-copy">We're a family away from home. Bringing Latin Americans and friends together through music, dance, tequila and unforgettable vibes. Everyone is welcome. Always.</p>
           <div class="hero-actions">
-            <a class="cta-next-events" href="#events">Next Events</a>
-            <a class="cta-community" href="#footer-signup">Join the Community</a>
+            <a class="btn btn-primary" href="#events">Next Events <span>&#8594;</span></a>
+            <a class="btn btn-secondary" href="#footer-signup"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="19" cy="7" r="3"/><path d="M21 21v-2a3 3 0 0 0-2.5-2.96"/></svg> Join the Community</a>
           </div>
+          <div class="hero-meta"><span>&#x2316; London, UK</span><span>&middot;</span><span>Latin heart. London home.</span></div>
         </div>
+        <img class="hero-stamp-corner" src="images/logo-stamp-red.svg" alt="" aria-hidden="true">
+        <div class="hero-leaf" aria-hidden="true"></div>
       </section>
 
-      <section class="section" id="events">
+      <!-- Events -->
+      <section class="cream-section events" id="events">
         <div class="container">
-          <div class="section-header">
-            <span class="eyebrow">Next up</span>
-            <h2 class="section-title">This Is What's Coming.</h2>
-            <p class="section-intro">Pick your night. Bring your people. The tribe handles the rest.</p>
+          <div class="section-head">
+            <div>
+              <p class="script eyebrow">What's Next</p>
+              <h2 class="display section-title">Upcoming Events</h2>
+            </div>
+            <a class="view-link" href="#">View all events &#8594;</a>
           </div>
-          <div class="cards-grid">
-            <article class="card">
-              <div class="image-frame ratio-wide">
-                <img src="images/event-reggaeton.webp" alt="Latin party night with warm neon lighting" onerror="this.hidden=true">
-                <span class="date-badge">14 Jun</span>
-              </div>
-              <div class="card-content">
-                <h3>Latino Party</h3>
-                <p>Reggaeton. Dembow. Baile funk. Tequila. The kind of night your group chat has been waiting for.</p>
+          <div class="event-grid">
+            <article class="event-card">
+              <img class="event-card-img" src="images/event-reggaeton.webp" alt="Latin party night with warm neon lighting">
+              <div class="event-date">SAT <strong>14</strong> JUN</div>
+              <div class="event-content">
+                <h3 class="display">Latino Party</h3>
+                <p>Reggaeton &middot; Dembow &middot; Baile Funk</p>
                 <a class="primary-cta" href="https://www.fatsoma.com/e/yojle63j/la-tribu-launch-party?utm_campaign=prom_ss&amp;utm_medium=social&amp;utm_source=dynamic">Get Your Tickets</a>
               </div>
             </article>
-            <article class="card">
-              <div class="image-frame ratio-wide">
-                <img src="images/dj-1.webp" alt="Fabio's DJ set at Lightbox London" onerror="this.hidden=true">
-                <span class="date-badge">21 Jun</span>
-              </div>
-              <div class="card-content">
-                <h3>Fabio's Set in Lightbox</h3>
-                <p>One DJ. One room. Pure Latin heat all night. This is the set everyone's going to be talking about.</p>
+            <article class="event-card magenta">
+              <img class="event-card-img" src="images/dj-1.webp" alt="Fabio's DJ set at Lightbox London">
+              <div class="event-date">SAT <strong>21</strong> JUN</div>
+              <div class="event-content">
+                <h3 class="display">Fabio's Set in Lightbox</h3>
+                <p>One DJ &middot; One room &middot; Pure Latin heat</p>
                 <span class="primary-cta cta-disabled">Coming Soon</span>
               </div>
             </article>
-            <article class="card">
-              <div class="image-frame ratio-wide">
-                <img src="images/event-salsa.webp" alt="Salsa dance shoes on a polished dancefloor" onerror="this.hidden=true">
-                <span class="date-badge">28 Jun</span>
-              </div>
-              <div class="card-content">
-                <h3>Salsa Social</h3>
-                <p>Warm up with lessons, stay for the sabor. The kind of night where strangers become dance partners and the clave doesn't stop.</p>
+            <article class="event-card">
+              <img class="event-card-img" src="images/event-salsa.webp" alt="Salsa dance shoes on a polished dancefloor">
+              <div class="event-date">SAT <strong>28</strong> JUN</div>
+              <div class="event-content">
+                <h3 class="display">Salsa Social</h3>
+                <p>Salsa &middot; Bachata &middot; Timba</p>
                 <span class="primary-cta cta-disabled">Coming Soon</span>
               </div>
             </article>
-            <article class="card">
-              <div class="image-frame ratio-wide">
-                <img src="images/event-brunch.webp" alt="Latin brunch table with tropical cocktails" onerror="this.hidden=true">
-                <span class="date-badge">06 Jul</span>
-              </div>
-              <div class="card-content">
-                <h3>Latin Brunch</h3>
-                <p>Cocktails, music, birthday tables, and daytime energy that doesn't know when to stop. Bring your crew.</p>
+            <article class="event-card">
+              <img class="event-card-img" src="images/event-brunch.webp" alt="Latin brunch table with tropical cocktails">
+              <div class="event-date">SUN <strong>06</strong> JUL</div>
+              <div class="event-content">
+                <h3 class="display">Latin Brunch</h3>
+                <p>Cocktails &middot; Music &middot; Good Vibes</p>
                 <span class="primary-cta cta-disabled">Coming Soon</span>
               </div>
             </article>
+          </div>
+          <div class="ornament"><span>&#x2726;</span></div>
+        </div>
+      </section>
+
+      <!-- Community -->
+      <section class="community" id="community">
+        <div class="container">
+          <div class="community-photo">
+            <img src="images/community.webp" alt="La Tribu community smiling together at a Latin event">
+          </div>
+          <div class="community-copy">
+            <span class="script">More than events.</span>
+            <h2 class="display">We Are La Tribu.</h2>
+            <p>La Tribu is a community for Latin Americans and friends in London. A place to connect, celebrate our culture and create memories that feel like home. No matter where you're from, there's a place for you here. Come as you are. Leave as family.</p>
+            <div class="values">
+              <div class="value"><div class="ico">&#x2661;</div><strong>A family away<br>from home</strong></div>
+              <div class="value"><div class="ico">&#x2659;</div><strong>Inclusive &amp;<br>welcoming</strong></div>
+              <div class="value"><div class="ico">&#x25CE;</div><strong>Celebrating our<br>culture</strong></div>
+              <div class="value"><div class="ico">&#x2667;</div><strong>Real connections.<br>Real people.</strong></div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="section section-dark">
-        <div class="container split">
-          <div class="image-frame ratio-wide">
-            <img src="images/community.webp" alt="La Tribu community smiling together at a Latin event" onerror="this.hidden=true">
+      <!-- Culture / Features -->
+      <section class="cream-section culture" id="about">
+        <div class="container">
+          <div class="topline">
+            <span class="script">Our Culture</span>
+            <h2 class="display">Music. Dance. Tequila.</h2>
           </div>
-          <div class="split-copy">
-            <span class="eyebrow">The tribe</span>
-            <h2 class="section-title">You Already Belong.</h2>
-            <p>La Tribu isn't a brand. It's the room. The people. The moment the beat drops and nobody's watching but everyone's moving.</p>
-            <p>Reggaeton, dembow, baile funk — the music moves between them. Tequila moves with it. The tribe doesn't need a setlist. It just needs to be in the room.</p>
-            <a class="primary-cta" href="#footer-signup">Join the Tribe</a>
+          <div class="feature-grid">
+            <div class="feature">
+              <div class="feature-icon">&#x1F941;</div>
+              <div><h3>Music that moves us</h3><p>From salsa classics to reggaeton bangers and Latin house, we bring the soundtrack to your best nights.</p></div>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">&#x1F483;</div>
+              <div><h3>Dance that unites us</h3><p>Salsa, bachata, merengue, dembow and more. Whether you're a pro or a beginner, the dance floor is for everyone.</p></div>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">&#x1F335;</div>
+              <div><h3>Tequila that connects us</h3><p>Great tequila, crafted cocktails and unforgettable toasts. Porque la vida es mejor con tequila y amigos.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery / Moments -->
+      <section class="moments" id="gallery">
+        <div class="container">
+          <div>
+            <div class="script">La Tribu Moments</div>
+            <div class="follow">Follow us @latribu.london</div>
+            <div class="socials">
+              <a href="https://www.instagram.com/placeholder" aria-label="Instagram">&#x25CE;</a>
+              <a href="https://www.tiktok.com/@placeholder" aria-label="TikTok">&#x266A;</a>
+            </div>
+          </div>
+          <div class="gallery">
+            <img src="images/gallery-1.webp" alt="La Tribu event moment">
+            <img src="images/gallery-2.webp" alt="La Tribu event moment">
+            <img src="images/gallery-3.webp" alt="La Tribu event moment">
+            <img src="images/gallery-4.webp" alt="La Tribu event moment">
+            <img src="images/gallery-5.webp" alt="La Tribu event moment">
           </div>
         </div>
       </section>
@@ -119,36 +170,42 @@
     </main>
 
     <footer class="site-footer" id="footer-signup">
-      <div class="container footer-main">
-        <section>
-          <h2 class="footer-title">Join the Tribe</h2>
-          <p>First access to tickets. Birthday tables. The next noche before anyone else knows.</p>
-          <form data-signup-form>
-            <div class="form-row">
-              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
-              <button class="primary-cta" type="submit">Join the Tribe</button>
-            </div>
-            <p class="form-status" data-signup-status aria-live="polite"></p>
-          </form>
-        </section>
-        <section>
-          <h2 class="footer-title">WhatsApp</h2>
-          <p>Ticket drops and last-minute plans. Scan or tap in.</p>
-          <a class="qr-placeholder image-frame" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
-            <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" onerror="this.hidden=true">
-          </a>
-        </section>
-        <section>
-          <h2 class="footer-title">Follow</h2>
-          <p>Te vemos en la pista.</p>
-          <div class="footer-socials">
-            <a href="https://www.instagram.com/placeholder">Instagram</a>
-            <a href="https://www.tiktok.com/@placeholder">TikTok</a>
-            <a href="https://chat.whatsapp.com/placeholder">WhatsApp</a>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img class="brand-logo" src="images/logo-nav.svg" alt="La Tribu">
+            <span class="script">Latin heart. London home.</span>
           </div>
-        </section>
+          <section>
+            <h2 class="footer-title">Join the Tribe</h2>
+            <p>Be the first to know about new events, exclusive offers and community news.</p>
+            <form data-signup-form>
+              <div class="signup-row">
+                <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+                <button class="subscribe" type="submit">Join</button>
+              </div>
+              <p class="form-status" data-signup-status aria-live="polite"></p>
+            </form>
+          </section>
+          <section>
+            <h2 class="footer-title">WhatsApp</h2>
+            <p>Ticket drops and last-minute plans. Scan or tap in.</p>
+            <a class="qr-placeholder" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
+              <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" onerror="this.hidden=true">
+            </a>
+          </section>
+          <section>
+            <h2 class="footer-title">Follow</h2>
+            <p>Te vemos en la pista.</p>
+            <div class="footer-socials">
+              <a href="https://www.instagram.com/placeholder">Instagram</a>
+              <a href="https://www.tiktok.com/@placeholder">TikTok</a>
+              <a href="https://chat.whatsapp.com/placeholder">WhatsApp</a>
+            </div>
+          </section>
+        </div>
+        <div class="footer-bottom"><span>La Tribu London 2026</span><span>Privacy Policy</span></div>
       </div>
-      <div class="container footer-bottom">La Tribu London 2026</div>
     </footer>
 
     <script>

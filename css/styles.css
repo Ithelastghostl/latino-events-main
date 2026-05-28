@@ -678,17 +678,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
 /* Community Signup */
 
 .community-signup {
-  margin-top: 28px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 225, 168, 0.18);
-}
-
-.community-signup h3 {
-  font-family: 'Bebas Neue', Impact, sans-serif;
-  font-size: 28px;
-  letter-spacing: 0.04em;
-  color: #fff3df;
-  margin: 0 0 6px;
+  margin-top: 16px;
 }
 
 .community-signup p {

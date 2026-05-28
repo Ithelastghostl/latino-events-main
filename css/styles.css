@@ -352,6 +352,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
   background:
     radial-gradient(circle at 92% 5%, rgba(226, 162, 60, 0.12), transparent 19rem),
     linear-gradient(180deg, rgba(255, 255, 255, 0.27), rgba(255, 255, 255, 0)),
+    url("../images/patterned_background.png") center / cover,
     var(--cream);
   color: var(--ink);
   position: relative;
@@ -577,22 +578,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
    ============================================================ */
 
 .community {
-  background:
-    radial-gradient(ellipse 320px 260px at 8% 20%, rgba(0, 0, 0, 0.38), transparent),
-    radial-gradient(ellipse 180px 350px at 72% 12%, rgba(60, 18, 10, 0.45), transparent),
-    radial-gradient(ellipse 400px 220px at 40% 75%, rgba(0, 0, 0, 0.35), transparent),
-    radial-gradient(ellipse 250px 300px at 90% 55%, rgba(50, 12, 8, 0.42), transparent),
-    radial-gradient(ellipse 350px 180px at 22% 90%, rgba(0, 0, 0, 0.32), transparent),
-    radial-gradient(ellipse 200px 280px at 58% 30%, rgba(80, 25, 15, 0.3), transparent),
-    radial-gradient(ellipse 280px 200px at 35% 50%, rgba(140, 50, 28, 0.22), transparent),
-    radial-gradient(ellipse 160px 240px at 82% 85%, rgba(0, 0, 0, 0.36), transparent),
-    radial-gradient(ellipse 300px 170px at 15% 55%, rgba(120, 38, 20, 0.25), transparent),
-    radial-gradient(ellipse 220px 320px at 50% 10%, rgba(0, 0, 0, 0.3), transparent),
-    radial-gradient(ellipse 380px 150px at 65% 65%, rgba(45, 15, 8, 0.35), transparent),
-    radial-gradient(ellipse 170px 260px at 95% 25%, rgba(100, 30, 18, 0.28), transparent),
-    radial-gradient(circle at 0% 100%, rgba(217, 44, 105, 0.32), transparent 19rem),
-    radial-gradient(circle at 95% 0%, rgba(0, 0, 0, 0.35), transparent 20rem),
-    linear-gradient(90deg, #6b1c11, #a83322 42%, #952c1c);
+  background: url("../images/red_background_pattern.png") center / cover no-repeat;
   padding: 38px 0;
   position: relative;
   overflow: hidden;
@@ -623,6 +609,7 @@ body.nav-open .nav-toggle span:nth-child(3) {
   font-size: 29px;
   display: block;
   margin-bottom: 2px;
+  color: var(--gold);
 }
 
 .community-copy h2 {

@@ -3,23 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DJs | La Tribu London</title>
+    <title>Our DJs | La Tribu London</title>
     <meta name="description" content="Meet the DJs bringing salsa, reggaeton, bachata, and cumbia to La Tribu London.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="/js/supabase-client.js"></script>
   </head>
   <body>
     <header class="site-nav">
-      <div class="container nav-inner">
-        <a class="brand" href="index.html" aria-label="La Tribu home">LA <span>TRIBU</span></a>
+      <div class="nav-inner">
+        <a class="brand" href="index.html" aria-label="La Tribu home"><img class="brand-logo" src="images/logo-nav.svg" alt="La Tribu"></a>
         <nav class="nav-links" aria-label="Primary navigation">
           <a href="index.html">Home</a>
           <a href="index.html#events">Events</a>
-          <a class="active" href="djs.html">DJs</a>
+          <a class="active" href="djs.html" aria-current="page">Our DJs</a>
           <a href="promotions.html">Promotions</a>
           <a href="past-events.html">Past Events</a>
           <a href="venues.html">Venues</a>
@@ -30,120 +30,157 @@
       </div>
     </header>
 
-    <main>
-      <section class="hero page-hero" style="--hero-image: url('images/dj-hero.webp');">
-        <div class="container hero-content">
-          <span class="eyebrow">Behind the ritmo</span>
-          <h1 class="page-title">The DJs of La Tribu</h1>
-          <p>Selectors who know how to read the room, lift the energy, and keep every generation moving.</p>
+    <main class="page">
+
+      <!-- Hero -->
+      <section class="hero" style="min-height: 480px;">
+        <img class="hero-bg" src="images/dj-1.webp" alt="" aria-hidden="true">
+        <div class="hero-overlay"></div>
+        <div class="hero-content" style="padding: 140px 0 60px;">
+          <p class="hero-subtitle" style="margin-top: 0; margin-bottom: 6px; font-size: clamp(24px, 3vw, 38px);">Behind the Decks</p>
+          <h1 class="hero-title" style="font-size: clamp(80px, 9vw, 140px);">OUR DJs</h1>
+          <p class="hero-copy">Selectors who know how to read the room, lift the energy, and keep every generation moving. Salsa, reggaeton, bachata, cumbia, and the blends that make London dance as one familia.</p>
         </div>
       </section>
 
-      <section class="section">
+      <!-- DJ Profiles -->
+      <section class="cream-section dj-profiles-section">
         <div class="container">
-          <div class="section-header">
-            <span class="eyebrow">Meet the crew</span>
-            <h2 class="section-title">Sounds You Feel First</h2>
-            <p class="section-intro" style="color: var(--charcoal);">Salsa, reggaeton, bachata, cumbia, and the blends that make London dance as one familia.</p>
+          <div class="section-head">
+            <div>
+              <p class="script eyebrow">Meet the Crew</p>
+              <h2 class="display section-title">Sounds You Feel First</h2>
+            </div>
           </div>
-          <div class="cards-grid">
-            <article class="card">
-              <div class="image-frame ratio-square">
-                <img src="images/dj-1.webp" alt="DJ Fuego performing at La Tribu" onerror="this.hidden=true">
+          <div class="dj-profiles">
+            <article class="dj-card">
+              <div class="dj-card-img">
+                <img src="images/dj-1.webp" alt="DJ Fuego performing at La Tribu">
               </div>
-              <div class="card-content">
-                <h3>DJ Fuego</h3>
+              <div class="dj-card-info">
+                <h3 class="display dj-name">DJ Fuego</h3>
+                <div class="dj-genres"><span class="genre-tag">Reggaeton</span><span class="genre-tag">Salsa</span></div>
                 <p>Big-room reggaeton, salsa classics, and sudden sing-along moments. Fuego turns the first track into a full-room promise.</p>
-                <div class="tag-row"><span class="badge">Reggaeton</span><span class="badge">Salsa</span></div>
-                <a class="secondary-cta" href="mailto:hello@latribu.london?subject=Book%20DJ%20Fuego">Book DJ Fuego</a>
+                <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=Book%20DJ%20Fuego">Book DJ Fuego</a>
               </div>
             </article>
-            <article class="card">
-              <div class="image-frame ratio-square">
-                <img src="images/dj-2.webp" alt="DJ Ritmo mixing Latin music" onerror="this.hidden=true">
+            <article class="dj-card">
+              <div class="dj-card-img">
+                <img src="images/dj-2.webp" alt="DJ Ritmo mixing Latin music">
               </div>
-              <div class="card-content">
-                <h3>DJ Ritmo</h3>
+              <div class="dj-card-info">
+                <h3 class="display dj-name">DJ Ritmo</h3>
+                <div class="dj-genres"><span class="genre-tag">Salsa</span><span class="genre-tag">Cumbia</span></div>
                 <p>A dancer's DJ with clean salsa switches and deep tropical sabor. Ritmo keeps the floor smiling from warm-up to last call.</p>
-                <div class="tag-row"><span class="badge">Salsa</span><span class="badge">Cumbia</span></div>
-                <a class="secondary-cta" href="mailto:hello@latribu.london?subject=Book%20DJ%20Ritmo">Book DJ Ritmo</a>
+                <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=Book%20DJ%20Ritmo">Book DJ Ritmo</a>
               </div>
             </article>
-            <article class="card">
-              <div class="image-frame ratio-square">
-                <img src="images/dj-3.webp" alt="DJ Corazón playing bachata" onerror="this.hidden=true">
+            <article class="dj-card">
+              <div class="dj-card-img">
+                <img src="images/dj-3.webp" alt="DJ Corazon playing bachata">
               </div>
-              <div class="card-content">
-                <h3>DJ Corazón</h3>
-                <p>Romantic bachata, smooth transitions, and late-night tracks that pull everyone closer. Corazón brings the heart of the noche.</p>
-                <div class="tag-row"><span class="badge">Bachata</span><span class="badge">Salsa</span></div>
-                <a class="secondary-cta" href="mailto:hello@latribu.london?subject=Book%20DJ%20Corazon">Book DJ Corazón</a>
+              <div class="dj-card-info">
+                <h3 class="display dj-name">DJ Corazon</h3>
+                <div class="dj-genres"><span class="genre-tag">Bachata</span><span class="genre-tag">Salsa</span></div>
+                <p>Romantic bachata, smooth transitions, and late-night tracks that pull everyone closer. Corazon brings the heart of the noche.</p>
+                <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=Book%20DJ%20Corazon">Book DJ Corazon</a>
               </div>
             </article>
-            <article class="card">
-              <div class="image-frame ratio-square">
-                <img src="images/dj-4.webp" alt="DJ Cumbia King hyping a La Tribu crowd" onerror="this.hidden=true">
+            <article class="dj-card">
+              <div class="dj-card-img">
+                <img src="images/dj-4.webp" alt="DJ Cumbia King hyping a La Tribu crowd">
               </div>
-              <div class="card-content">
-                <h3>DJ Cumbia King</h3>
+              <div class="dj-card-info">
+                <h3 class="display dj-name">DJ Cumbia King</h3>
+                <div class="dj-genres"><span class="genre-tag">Cumbia</span><span class="genre-tag">Reggaeton</span></div>
                 <p>Cumbia, edits, throwbacks, and cheeky surprises. He brings the family-party energy, then turns it all the way up.</p>
-                <div class="tag-row"><span class="badge">Cumbia</span><span class="badge">Reggaeton</span></div>
-                <a class="secondary-cta" href="mailto:hello@latribu.london?subject=Book%20DJ%20Cumbia%20King">Book DJ Cumbia King</a>
+                <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=Book%20DJ%20Cumbia%20King">Book DJ Cumbia King</a>
               </div>
             </article>
+          </div>
+          <div class="ornament"><span>&#x2726;</span></div>
+        </div>
+      </section>
+
+      <!-- Booking CTA -->
+      <section class="community dj-booking-cta">
+        <div class="container">
+          <div class="dj-booking-content">
+            <span class="script">Need the sound?</span>
+            <h2 class="display">Book La Tribu DJs</h2>
+            <p>From venue takeovers to private fiestas, we match the right DJ to the crowd, the room, and the moment.</p>
+            <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=DJ%20Booking">Let's Talk</a>
           </div>
         </div>
       </section>
 
-      <section class="section section-dark">
-        <div class="container split">
-          <div>
-            <span class="eyebrow">Need the sound?</span>
-            <h2 class="section-title">Book La Tribu DJs</h2>
-            <p class="section-intro">From venue takeovers to private fiestas, we match the right DJ to the crowd, the room, and the moment.</p>
-          </div>
-          <div class="section-actions">
-            <a class="primary-cta" href="mailto:hello@latribu.london?subject=DJ%20Booking">Let's Talk</a>
-            <a class="secondary-cta" href="promotions.html">See Promotions</a>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer" id="footer-signup">
-      <div class="container footer-main">
-        <section>
-          <h2 class="footer-title">Join the Tribe</h2>
-          <p>Get first access to tickets, birthday tables, and the next noche.</p>
-          <form data-signup-form>
-            <div class="form-row">
-              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
-              <button class="primary-cta" type="submit">Join the Tribe</button>
-            </div>
-            <p class="form-status" data-signup-status aria-live="polite"></p>
-          </form>
-        </section>
-        <section>
-          <h2 class="footer-title">WhatsApp</h2>
-          <p>Scan or tap in for ticket drops and last-minute plans.</p>
-          <a class="qr-placeholder image-frame" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
-            <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" onerror="this.hidden=true">
-          </a>
-        </section>
-        <section>
-          <h2 class="footer-title">Follow</h2>
-          <p>Keep the ritmo going between events.</p>
-          <div class="footer-socials">
-            <a href="https://www.instagram.com/placeholder">Instagram</a>
-            <a href="https://www.tiktok.com/@placeholder">TikTok</a>
-            <a href="https://chat.whatsapp.com/placeholder">WhatsApp</a>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img class="brand-logo" src="images/logo-nav.svg" alt="La Tribu">
+            <span class="script">Latin heart. London home.</span>
           </div>
-        </section>
+          <section>
+            <h2 class="footer-title">Join the Tribe</h2>
+            <p>Be the first to know about new events, exclusive offers and community news.</p>
+            <form data-signup-form>
+              <div class="signup-row">
+                <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+                <button class="subscribe" type="submit">Join</button>
+              </div>
+              <p class="form-status" data-signup-status aria-live="polite"></p>
+            </form>
+          </section>
+          <section>
+            <h2 class="footer-title">WhatsApp</h2>
+            <p>Ticket drops and last-minute plans. Scan or tap in.</p>
+            <a class="qr-placeholder" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
+              <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" onerror="this.hidden=true">
+            </a>
+          </section>
+          <section>
+            <h2 class="footer-title">Follow</h2>
+            <p>Te vemos en la pista.</p>
+            <div class="footer-socials">
+              <a href="https://www.instagram.com/placeholder">Instagram</a>
+              <a href="https://www.tiktok.com/@placeholder">TikTok</a>
+              <a href="https://chat.whatsapp.com/placeholder">WhatsApp</a>
+            </div>
+          </section>
+        </div>
+        <div class="footer-bottom"><span>La Tribu London 2026</span><span>Privacy Policy</span></div>
       </div>
-      <div class="container footer-bottom">La Tribu London 2024</div>
     </footer>
 
+    <div class="toast" id="signup-toast">
+      <div class="toast-box">
+        <span class="toast-icon" id="toast-icon"></span>
+        <p class="toast-title" id="toast-title"></p>
+        <p class="toast-message" id="toast-message"></p>
+        <button class="toast-close" type="button" onclick="closeToast()">Got It</button>
+      </div>
+    </div>
+
     <script>
+      function showToast(success, message) {
+        const toast = document.getElementById("signup-toast");
+        document.getElementById("toast-icon").textContent = success ? "🎉" : "⚠️";
+        document.getElementById("toast-title").textContent = success ? "You're In!" : "Oops";
+        document.getElementById("toast-message").textContent = message;
+        toast.className = success ? "toast visible" : "toast visible toast-error";
+      }
+
+      function closeToast() {
+        document.getElementById("signup-toast").classList.remove("visible");
+      }
+
+      document.getElementById("signup-toast").addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) closeToast();
+      });
+
       const navToggle = document.querySelector(".nav-toggle");
       const navLinks = document.querySelectorAll(".nav-links a");
       navToggle.addEventListener("click", () => {
@@ -166,10 +203,12 @@
             const result = await subscribeEmail(email);
             status.textContent = result.message;
             status.classList.add(result.success ? "success" : "error");
-            if (result.success) form.reset();
+            if (result.success) { form.reset(); showToast(true, result.message); }
+            else { showToast(false, result.message); }
           } catch (error) {
             status.textContent = "Something went wrong. Please try again.";
             status.classList.add("error");
+            showToast(false, "Something went wrong. Please try again.");
           }
         });
       });

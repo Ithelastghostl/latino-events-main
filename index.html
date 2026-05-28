@@ -197,7 +197,32 @@
       </div>
     </footer>
 
+    <div class="toast" id="signup-toast">
+      <div class="toast-box">
+        <span class="toast-icon" id="toast-icon"></span>
+        <p class="toast-title" id="toast-title"></p>
+        <p class="toast-message" id="toast-message"></p>
+        <button class="toast-close" type="button" onclick="closeToast()">Got It</button>
+      </div>
+    </div>
+
     <script>
+      function showToast(success, message) {
+        const toast = document.getElementById("signup-toast");
+        document.getElementById("toast-icon").textContent = success ? "🎉" : "⚠️";
+        document.getElementById("toast-title").textContent = success ? "You're In!" : "Oops";
+        document.getElementById("toast-message").textContent = message;
+        toast.className = success ? "toast visible" : "toast visible toast-error";
+      }
+
+      function closeToast() {
+        document.getElementById("signup-toast").classList.remove("visible");
+      }
+
+      document.getElementById("signup-toast").addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) closeToast();
+      });
+
       const navToggle = document.querySelector(".nav-toggle");
       const navLinks = document.querySelectorAll(".nav-links a");
       navToggle.addEventListener("click", () => {
@@ -220,10 +245,12 @@
             const result = await subscribeEmail(email);
             status.textContent = result.message;
             status.classList.add(result.success ? "success" : "error");
-            if (result.success) form.reset();
+            if (result.success) { form.reset(); showToast(true, result.message); }
+            else { showToast(false, result.message); }
           } catch (error) {
             status.textContent = "Something went wrong. Please try again.";
             status.classList.add("error");
+            showToast(false, "Something went wrong. Please try again.");
           }
         });
       });

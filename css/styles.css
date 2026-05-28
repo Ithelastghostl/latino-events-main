@@ -904,6 +904,89 @@ body.nav-open .nav-toggle span:nth-child(3) {
 .form-status.success { color: var(--gold); }
 .form-status.error { color: var(--coral); }
 
+/* Success Toast */
+
+.toast {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12, 10, 8, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.toast.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.toast-box {
+  background: #1a1714;
+  border: 1px solid rgba(226, 162, 60, 0.25);
+  border-radius: var(--radius);
+  padding: 44px 48px;
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  transform: scale(0.9) translateY(16px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.toast.visible .toast-box {
+  transform: scale(1) translateY(0);
+}
+
+.toast-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.toast-title {
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+
+.toast-message {
+  font-size: 14px;
+  font-weight: 600;
+  color: #bfae9b;
+  margin: 0 0 22px;
+  line-height: 1.5;
+}
+
+.toast-close {
+  background: var(--coral);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 32px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.toast-close:hover {
+  transform: scale(1.04);
+}
+
+.toast-error .toast-title { color: var(--coral); }
+
 .qr-placeholder {
   width: min(180px, 100%);
   aspect-ratio: 1;
@@ -944,6 +1027,133 @@ body.nav-open .nav-toggle span:nth-child(3) {
 }
 
 /* ============================================================
+   DJ Profiles (djs.html)
+   ============================================================ */
+
+.dj-profiles-section { padding: 44px 0 54px; }
+
+.dj-profiles {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.dj-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 38px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.38);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(47, 26, 14, 0.12);
+}
+
+.dj-card:nth-child(even) {
+  direction: rtl;
+}
+
+.dj-card:nth-child(even) > * {
+  direction: ltr;
+}
+
+.dj-card-img {
+  min-height: 340px;
+  overflow: hidden;
+}
+
+.dj-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 340px;
+}
+
+.dj-card-info {
+  padding: 32px 38px;
+}
+
+.dj-name {
+  margin: 0 0 12px;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(42px, 5vw, 62px);
+  letter-spacing: 0.035em;
+  line-height: 0.9;
+  color: #2c211d;
+}
+
+.dj-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.genre-tag {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--coral);
+}
+
+.dj-card-info p {
+  margin: 0 0 22px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.55;
+  color: #4a3528;
+  max-width: 440px;
+}
+
+.dj-card-info .btn {
+  min-height: 48px;
+  font-size: 12px;
+}
+
+/* Booking CTA */
+
+.dj-booking-cta .container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.dj-booking-content {
+  max-width: 560px;
+  padding: 16px 0;
+}
+
+.dj-booking-content .script {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 2px;
+  color: var(--gold);
+}
+
+.dj-booking-content h2 {
+  margin: 0 0 17px;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(48px, 6vw, 70px);
+  letter-spacing: 0.035em;
+  line-height: 0.9;
+  color: #fff3df;
+}
+
+.dj-booking-content p {
+  max-width: 480px;
+  margin: 0 auto 26px;
+  color: #fff0e0;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* ============================================================
    Focus States
    ============================================================ */
 
@@ -953,6 +1163,645 @@ button:focus-visible,
 .primary-cta:focus-visible {
   outline: 2px solid var(--coral);
   outline-offset: 3px;
+}
+
+/* ============================================================
+   Promotions Page
+   ============================================================ */
+
+.promo-hero {
+  min-height: 480px;
+}
+
+.promo-hero .hero-content {
+  padding: 150px 0 60px;
+}
+
+.promo-title {
+  font-size: clamp(80px, 9vw, 140px);
+}
+
+.promo-deals { padding: 44px 0 54px; }
+
+.promo-section-intro {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  max-width: 540px;
+  margin: -10px 0 28px;
+}
+
+.promo-section-intro--light {
+  color: #d9c9b8;
+}
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.promo-card {
+  background: #1a1714;
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.promo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 55px rgba(0, 0, 0, 0.4);
+}
+
+.promo-badge {
+  display: inline-block;
+  width: fit-content;
+  padding: 4px 12px;
+  border-radius: 5px;
+  background: rgba(226, 162, 60, 0.15);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.promo-price {
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(44px, 5vw, 58px);
+  line-height: 0.9;
+  letter-spacing: 0.035em;
+  color: var(--gold);
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.2));
+}
+
+.promo-name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff8ec;
+}
+
+.promo-card p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #bfae9b;
+  line-height: 1.5;
+}
+
+.promo-card .primary-cta {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* Partner Offers (dark bg) */
+
+.promo-partners {
+  background: linear-gradient(180deg, #0e0c0a, #151210);
+  padding: 44px 0 54px;
+}
+
+.promo-partners .section-title {
+  color: #fff8ec;
+}
+
+/* Email Signup CTA (red textured bg) */
+
+.promo-cta {
+  background: url("../images/red_background_pattern.png") center / cover no-repeat;
+  padding: 44px 0;
+}
+
+.promo-cta-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.promo-cta .eyebrow {
+  color: var(--gold);
+}
+
+.promo-cta-copy {
+  color: #fff0e0;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 10px 0 0;
+  max-width: 460px;
+}
+
+.promo-cta .signup-row input {
+  background: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 225, 168, 0.35);
+}
+
+.promo-cta .signup-row input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(226, 162, 60, 0.2);
+}
+
+.promo-cta .signup-row button {
+  background: var(--gold);
+  color: var(--charcoal);
+}
+
+/* ============================================================
+   Past Events Page
+   ============================================================ */
+
+.past-hero {
+  min-height: 480px;
+}
+
+.past-hero .hero-content {
+  padding: 150px 0 60px;
+}
+
+.past-hero .hero-title {
+  font-size: clamp(80px, 9vw, 140px);
+}
+
+/* Events Timeline Section */
+
+.past-events-section {
+  background: linear-gradient(180deg, #0e0c0a, #151210);
+  padding: 44px 0 54px;
+}
+
+.past-events-section .section-title {
+  color: #fff8ec;
+}
+
+.auth-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  margin-bottom: 26px;
+}
+
+/* Past Event Cards */
+
+.card.past-event-card {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 0;
+  background: #1a1714;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+  margin-bottom: 22px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card.past-event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 28px 55px rgba(0, 0, 0, 0.4);
+}
+
+.image-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.card.past-event-card > .image-frame {
+  border-radius: var(--radius) 0 0 var(--radius);
+  min-height: 220px;
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.image-frame.ratio-wide {
+  aspect-ratio: 16 / 9;
+}
+
+.card-content {
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-content h3 {
+  margin: 0;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(28px, 3vw, 38px);
+  letter-spacing: 0.035em;
+  line-height: 0.95;
+  color: #fff8ec;
+}
+
+.card-content p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #bfae9b;
+  line-height: 1.5;
+}
+
+.past-event-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.card-content .primary-cta {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* Sign-in Panel */
+
+.signin-panel {
+  display: none;
+  margin-top: 12px;
+  padding: 18px 22px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.signin-panel.visible {
+  display: block;
+}
+
+.signin-panel p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #d9c9b8;
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.form-row input {
+  flex: 1;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 7px;
+  padding: 12px 14px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.form-row input:focus {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 4px rgba(239, 90, 63, 0.18);
+  outline: 0;
+}
+
+/* Photo Grid */
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.photo-card {
+  margin: 0;
+}
+
+.photo-card figcaption {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #bfae9b;
+}
+
+/* State Indicators */
+
+.loading-state,
+.empty-state,
+.error-state {
+  padding: 32px 0;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #bfae9b;
+}
+
+.loading-state {
+  color: var(--gold);
+}
+
+.error-state {
+  color: var(--coral);
+}
+
+/* Past Events CTA (red textured bg) */
+
+.past-cta {
+  padding: 50px 0;
+}
+
+.past-cta-inner {
+  max-width: 540px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.past-cta-inner h2 {
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(44px, 6vw, 68px);
+  letter-spacing: 0.035em;
+  line-height: 0.9;
+  color: #fff3df;
+  margin: 0 0 12px;
+}
+
+.past-cta-inner p {
+  color: #fff0e0;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+.past-cta-inner .signup-row {
+  justify-content: center;
+}
+
+.past-cta-inner .signup-row input {
+  background: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 225, 168, 0.35);
+}
+
+.past-cta-inner .signup-row input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(226, 162, 60, 0.2);
+}
+
+.past-cta-inner .signup-row button {
+  background: var(--gold);
+  color: var(--charcoal);
+}
+
+/* ============================================================
+   Venues Page
+   ============================================================ */
+
+.venue-hero {
+  min-height: 480px;
+}
+
+.venue-hero .hero-content {
+  padding: 150px 0 60px;
+}
+
+.venue-title {
+  font-size: clamp(80px, 9vw, 140px);
+}
+
+.venue-why { padding: 44px 0 54px; }
+
+.venue-section-intro {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  max-width: 540px;
+  margin: -10px 0 28px;
+}
+
+.venue-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.venue-card {
+  background: #1a1714;
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.venue-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 55px rgba(0, 0, 0, 0.4);
+}
+
+.venue-card-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff8ec;
+}
+
+.venue-card p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #bfae9b;
+  line-height: 1.5;
+}
+
+/* How It Works (dark bg) */
+
+.venue-steps-section {
+  background: linear-gradient(180deg, #0e0c0a, #151210);
+  padding: 44px 0 54px;
+}
+
+.venue-steps-section .section-title {
+  color: #fff8ec;
+}
+
+.venue-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.venue-step {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--coral);
+  color: #fff;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.venue-step h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff8ec;
+}
+
+.venue-step p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #bfae9b;
+  line-height: 1.5;
+}
+
+/* Stats (cream bg) */
+
+.venue-stats-section {
+  padding: 44px 0 54px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(226, 162, 60, 0.06), transparent 60%),
+              linear-gradient(180deg, rgba(242, 228, 210, 0.5), transparent),
+              url("../images/patterned_background.png") center / cover,
+              var(--cream);
+}
+
+.venue-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.venue-stat {
+  padding: 32px 20px;
+  background: rgba(18, 16, 14, 0.06);
+  border-radius: var(--radius);
+  border: 1px dashed rgba(78, 42, 24, 0.2);
+}
+
+.venue-stat strong {
+  display: block;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: clamp(48px, 6vw, 72px);
+  line-height: 0.9;
+  letter-spacing: 0.035em;
+  color: var(--coral);
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.08));
+}
+
+.venue-stat span {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+/* Contact Form (red textured bg) */
+
+.venue-form-section {
+  background: url("../images/red_background_pattern.png") center / cover no-repeat;
+  padding: 54px 0;
+}
+
+.venue-form-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.venue-form-copy p {
+  color: #fff0e0;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 10px 0 0;
+  max-width: 400px;
+}
+
+.venue-contact-form {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+}
+
+.venue-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.venue-field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.venue-field input,
+.venue-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 225, 168, 0.25);
+  border-radius: 7px;
+  padding: 12px 14px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.venue-field input:focus,
+.venue-field textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(226, 162, 60, 0.2);
+  outline: 0;
+}
+
+.venue-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.venue-field-full {
+  grid-column: 1 / -1;
+}
+
+.venue-contact-form .btn {
+  width: 100%;
 }
 
 /* ============================================================
@@ -995,6 +1844,27 @@ button:focus-visible,
   .moments .container { grid-template-columns: 1fr; }
 
   .footer-grid { grid-template-columns: 1fr 1fr; }
+
+  .promo-grid { grid-template-columns: repeat(2, 1fr); }
+  .promo-cta-inner { grid-template-columns: 1fr; }
+
+  .dj-card {
+    grid-template-columns: 1fr;
+  }
+
+  .dj-card:nth-child(even) {
+    direction: ltr;
+  }
+
+  .dj-card-img { min-height: 260px; }
+  .dj-card-img img { min-height: 260px; }
+
+  .card.past-event-card { grid-template-columns: 260px 1fr; }
+
+  .venue-grid { grid-template-columns: repeat(2, 1fr); }
+  .venue-steps { grid-template-columns: 1fr; }
+  .venue-stats { grid-template-columns: repeat(3, 1fr); }
+  .venue-form-layout { grid-template-columns: 1fr; }
 }
 
 /* ============================================================
@@ -1088,4 +1958,36 @@ button:focus-visible,
   }
 
   .footer-bottom { flex-direction: column; }
+
+  .promo-grid { grid-template-columns: 1fr; }
+  .promo-title { font-size: 72px; }
+
+  .card.past-event-card {
+    grid-template-columns: 1fr;
+  }
+
+  .card.past-event-card > .image-frame {
+    border-radius: var(--radius) var(--radius) 0 0;
+    min-height: 200px;
+  }
+
+  .card-content { padding: 22px 20px 28px; }
+
+  .auth-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .photo-grid { grid-template-columns: 1fr; }
+
+  .form-row { flex-direction: column; }
+
+  .dj-card-info { padding: 22px 20px 28px; }
+  .dj-name { font-size: 40px; }
+  .dj-card-info p { font-size: 14px; }
+
+  .venue-grid { grid-template-columns: 1fr; }
+  .venue-title { font-size: 72px; }
+  .venue-stats { grid-template-columns: 1fr; }
+  .venue-field-grid { grid-template-columns: 1fr; }
 }

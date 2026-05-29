@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Tribu — Email & Offer Code: Handoff</title>
+<style>
+  :root { --charcoal:#12100e; --cream:#f4eadc; --gold:#e2a23c; --coral:#ef5a3f; --magenta:#d92c69; --muted:#d8c7af; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--charcoal); color:var(--cream); font-family:'Helvetica Neue',Arial,sans-serif; line-height:1.6; }
+  .wrap { max-width:860px; margin:0 auto; padding:40px 24px 80px; }
+  h1 { color:var(--coral); font-size:30px; margin:0 0 4px; }
+  h2 { color:var(--gold); font-size:21px; margin:38px 0 12px; border-bottom:1px solid rgba(226,162,60,.25); padding-bottom:6px; }
+  h3 { color:var(--cream); font-size:16px; margin:22px 0 8px; }
+  p, li { font-size:15px; color:var(--cream); }
+  code { background:rgba(226,162,60,.12); color:var(--gold); padding:2px 7px; border-radius:5px; font-size:13px; }
+  .sub { color:var(--muted); margin-top:0; }
+  .card { background:rgba(255,255,255,.03); border:1px solid rgba(226,162,60,.18); border-radius:14px; padding:18px 22px; margin:14px 0; }
+  .ok { color:#7ddf8e; } .warn { color:var(--gold); } .todo { color:var(--coral); }
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; }
+  th, td { text-align:left; padding:9px 10px; border-bottom:1px solid rgba(226,162,60,.15); vertical-align:top; }
+  th { color:var(--gold); }
+  .badge { display:inline-block; font-size:12px; font-weight:700; padding:2px 9px; border-radius:999px; }
+  .b-done { background:rgba(125,223,142,.15); color:#7ddf8e; }
+  .b-todo { background:rgba(239,90,63,.15); color:var(--coral); }
+  .b-opt { background:rgba(226,162,60,.15); color:var(--gold); }
+  .step { counter-increment:step; }
+  ol.big { counter-reset:step; list-style:none; padding-left:0; }
+  ol.big > li { position:relative; padding:6px 0 6px 42px; }
+  ol.big > li::before { content:counter(step); position:absolute; left:0; top:6px; width:28px; height:28px; background:var(--coral); color:var(--charcoal); font-weight:700; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; }
+  .codebox { background:#080706; border:1px solid rgba(226,162,60,.25); border-radius:8px; padding:14px 16px; font-family:monospace; font-size:13px; color:var(--cream); overflow-x:auto; white-space:pre; }
+  .tag { font-family:monospace; font-size:22px; font-weight:700; letter-spacing:3px; color:var(--gold); border:2px dashed var(--gold); border-radius:10px; padding:10px 18px; display:inline-block; background:rgba(226,162,60,.08); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Email &amp; Offer-Code System — Handoff</h1>
+  <p class="sub">latribu.co.uk · built 2026-05-29 · status: <span class="ok">live &amp; tested</span></p>
+
+  <div class="card">
+    <strong>One-line summary:</strong> Newsletter signups now generate a unique 2-free-shots code (for the 9 July 2026 event), store it in Supabase, show it on screen instantly, and email a branded welcome with the code. The venue contact form now actually emails you + your cofounder. All three backend functions are deployed and verified against the live database.
+  </div>
+
+  <h2>What works right now <span class="badge b-done">DONE</span></h2>
+  <table>
+    <tr><th>Feature</th><th>Behaviour</th><th>Status</th></tr>
+    <tr><td><strong>Signup → offer code</strong></td><td>Anyone who subscribes <em>today (29 May 2026, London time)</em> gets a unique code like <code>AB3D-EF2H-A3XY</code>, saved to their email row in Supabase.</td><td><span class="ok">Verified</span></td></tr>
+    <tr><td><strong>Code on screen</strong></td><td>The signup success toast shows their code immediately (every page: index, djs, promotions, past-events, venues).</td><td><span class="ok">Verified</span></td></tr>
+    <tr><td><strong>Welcome email</strong></td><td>Branded dark/gold email from <code>hola@latribu.co.uk</code> with the code in a "ticket" block, over-18 terms, unsubscribe footer, plain-text fallback.</td><td><span class="ok">Sent in test</span></td></tr>
+    <tr><td><strong>Contact form</strong></td><td>Venue form on <code>venues.html</code> emails <code>raposo.ignacio@gmail.com</code>, CC <code>iamdjfabio@gmail.com</code>, Reply-To = the enquirer. Also saved to a <code>contact_messages</code> table as backup.</td><td><span class="ok">Verified</span></td></tr>
+    <tr><td><strong>Duplicate protection</strong></td><td>Re-subscribing the same email returns the <em>same</em> code — no duplicates, no second email.</td><td><span class="ok">Verified</span></td></tr>
+    <tr><td><strong>Code redemption</strong></td><td><code>redeem</code> function marks a code as used (one-time) for staff at the door. Locked behind a staff secret.</td><td><span class="warn">Needs secret (see TODO)</span></td></tr>
+  </table>
+
+  <h3>Your test email</h3>
+  <p>A real welcome email was sent to <strong>raposo.ignacio@gmail.com</strong> with code: <span class="tag">49KT-FM7C-FBSM</span></p>
+  <p class="sub">Check your inbox (and spam on first send). Earlier you may have received <em>two</em> emails from one signup — that was a duplicate from an old system, now removed (see "What I cleaned up").</p>
+
+  <h2>What you must do <span class="badge b-todo">ACTION NEEDED</span></h2>
+
+  <h3 class="todo">1. Set a staff secret so the door-redemption works (only needed before 9 July)</h3>
+  <p>The <code>redeem</code> function is built and locked, but needs a shared password set as a Supabase secret. In the Supabase dashboard:</p>
+  <ol class="big">
+    <li>Project → <strong>Edge Functions</strong> → <strong>Manage secrets</strong> (or Project Settings → Edge Functions → Secrets).</li>
+    <li>Add a secret named <code>STAFF_SECRET</code> with a value you choose (e.g. a long random phrase). This is the password staff use to redeem codes.</li>
+  </ol>
+  <p class="sub">We can build a simple staff "redeem" page closer to the event. For now the function is ready and safely locked.</p>
+
+  <h3 class="todo">2. Delete the old leftover function (cleanup, 30 seconds)</h3>
+  <p>An old <code>send-welcome-email</code> function is now orphaned (nothing calls it). It's harmless but messy. To remove it: Supabase → <strong>Edge Functions</strong> → <code>send-welcome-email</code> → Delete. <em>(I couldn't delete it via tooling — no delete permission in the connected tools.)</em></p>
+
+  <h3 class="warn">3. Deploy the site so the changes go live <span class="badge b-opt">WHEN READY</span></h3>
+  <p>Two files changed: <code>js/supabase-client.js</code> and <code>venues.html</code>. Push/deploy to Vercel as you normally do. The backend functions are already live regardless of deploy — but the <em>frontend</em> behaviour (code in toast, working contact form) needs these files deployed. Email images also reference <code>https://latribu.co.uk/images/...</code>, so they render correctly once the site is live.</p>
+
+  <h2>How to send a one-off promotion / newsletter</h2>
+  <p>No send button was built into the site (by design — no admin panel). Send promos from the <strong>Resend dashboard</strong>:</p>
+  <ol class="big">
+    <li>Get your subscriber emails: Supabase → Table Editor → <code>subscribers</code> → export CSV.</li>
+    <li>Resend → <strong>Audiences</strong> → import that CSV.</li>
+    <li>Resend → <strong>Broadcasts</strong> → write &amp; send to that audience, from <code>hola@latribu.co.uk</code>.</li>
+  </ol>
+  <p>A reusable branded promo template (<code>promoEmail()</code>) lives in <code>supabase/functions/_shared/emails.ts</code> if you later want to automate promos — but that would be a new build.</p>
+
+  <h2>What I cleaned up (and why)</h2>
+  <div class="card">
+    <p>An <strong>earlier welcome-email system</strong> existed: a database trigger (<code>on_new_subscriber</code> → <code>notify_new_subscriber</code>) that called the old <code>send-welcome-email</code> function on every signup. With the new system also sending a welcome, <strong>every signup was firing two emails</strong> — and the old one had no offer code and used the wrong sender (<code>hello@</code> not <code>hola@</code>).</p>
+    <p>With your approval I <strong>removed the trigger and its function</strong> (migration <code>remove_legacy_welcome_email_trigger</code>). Now each signup sends exactly one correct email. The old edge function is left orphaned for you to delete (TODO #2). Restore SQL, if ever needed:</p>
+    <div class="codebox">-- (the dropped function bodied a webhook to send-welcome-email)
+CREATE TRIGGER on_new_subscriber AFTER INSERT ON public.subscribers
+  FOR EACH ROW EXECUTE FUNCTION notify_new_subscriber();</div>
+  </div>
+
+  <h2>Security notes (informational)</h2>
+  <ul>
+    <li><span class="ok">Good:</span> The Resend API key lives only as a Supabase secret, never in the website code. The site only holds the public anon key (correct).</li>
+    <li><span class="ok">Good:</span> <code>contact_messages</code> has row-level security on with no public read policy — only the server can read enquiries.</li>
+    <li><span class="warn">Optional hardening:</span> A pre-existing rule (<code>anon_insert_subscribers</code>) still lets anyone insert rows into <code>subscribers</code> directly via the public API. Now that signups go through the secure function, this old path is no longer needed and could be tightened to prevent spam inserts. Not urgent. Tell me if you want it locked down.</li>
+  </ul>
+
+  <h2>The offer terms used in the email</h2>
+  <p>"2 free shots at La Tribu on 9 July 2026. One code per person. Over-18s only. Show this code at the bar." <span class="sub">— change this wording any time; it lives in <code>supabase/functions/_shared/emails.ts</code>.</span></p>
+
+  <h2>Technical reference</h2>
+  <table>
+    <tr><th>Piece</th><th>Location</th></tr>
+    <tr><td>Subscribe + welcome + code</td><td>edge function <code>subscribe</code></td></tr>
+    <tr><td>Contact form email + backup</td><td>edge function <code>contact</code></td></tr>
+    <tr><td>Door redemption (staff)</td><td>edge function <code>redeem</code></td></tr>
+    <tr><td>Email templates</td><td><code>supabase/functions/_shared/emails.ts</code></td></tr>
+    <tr><td>Code gen / helpers</td><td><code>supabase/functions/_shared/util.ts</code></td></tr>
+    <tr><td>Frontend wiring</td><td><code>js/supabase-client.js</code>, <code>venues.html</code></td></tr>
+    <tr><td>New DB columns</td><td><code>subscribers</code>: offer_code, offer_code_redeemed, offer_code_redeemed_at, offer_event, welcome_sent_at</td></tr>
+    <tr><td>New table</td><td><code>contact_messages</code></td></tr>
+  </table>
+  <p class="sub"><strong>Note on the offer date:</strong> the code only mints for signups on 2026-05-29 (London). After today, signups still get a welcome email but no code, unless we change the date in the <code>subscribe</code> function.</p>
+
+  <p class="sub" style="margin-top:36px;">Built by Claude · backend per the project's frontend/backend split (email templates are frontend and can be refined by Codex).</p>
+
+</div>
+</body>
+</html>

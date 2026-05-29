@@ -265,7 +265,7 @@
             status.classList.add(result.success ? "success" : "error");
             if (result.success) { form.reset(); showToast(true, result.message); }
             else { showToast(false, result.message); }
-          } catch (error) {
+          } catch (_error) {
             status.textContent = "Something went wrong. Please try again.";
             status.classList.add("error");
             showToast(false, "Something went wrong. Please try again.");
@@ -275,10 +275,27 @@
 
       const venueForm = document.getElementById("venue-contact-form");
       const venueStatus = document.getElementById("venue-form-status");
-      venueForm.addEventListener("submit", (event) => {
+      venueForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-        venueForm.reset();
-        showToast(true, "Thank you! We will be in touch soon about your venue.");
+        venueStatus.className = "form-status";
+        venueStatus.textContent = "Sending...";
+        const data = new FormData(venueForm);
+        try {
+          const result = await sendContactMessage({
+            name: data.get("name"),
+            venue: data.get("venue"),
+            email: data.get("email"),
+            message: data.get("message"),
+          });
+          venueStatus.textContent = result.message;
+          venueStatus.classList.add(result.success ? "success" : "error");
+          if (result.success) { venueForm.reset(); showToast(true, result.message); }
+          else { showToast(false, result.message); }
+        } catch (_error) {
+          venueStatus.textContent = "Something went wrong. Please try again.";
+          venueStatus.classList.add("error");
+          showToast(false, "Something went wrong. Please try again.");
+        }
       });
     </script>
   </body>

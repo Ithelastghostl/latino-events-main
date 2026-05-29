@@ -3,17 +3,28 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-async function subscribeEmail(email) {
-  const { error } = await supabase
-    .from('subscribers')
-    .insert({ email: email.trim().toLowerCase(), source: 'website' });
+const FUNCTIONS_URL = `${SUPABASE_URL}/functions/v1`;
 
-  if (error) {
-    if (error.code === '23505') return { success: false, message: 'You\'re already subscribed!' };
-    if (error.code === '23514') return { success: false, message: 'Please enter a valid email address.' };
-    return { success: false, message: 'Something went wrong. Please try again.' };
-  }
-  return { success: true, message: 'Welcome to La Tribu! 🎉' };
+async function callFunction(name, payload) {
+  const res = await fetch(`${FUNCTIONS_URL}/${name}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      apikey: SUPABASE_ANON_KEY,
+    },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+}
+
+async function subscribeEmail(email) {
+  // Server generates the unique offer code and sends the welcome email.
+  return callFunction('subscribe', { email: email.trim().toLowerCase() });
+}
+
+async function sendContactMessage({ name, venue, email, message }) {
+  return callFunction('contact', { name, venue, email, message });
 }
 
 async function getPastEvents() {

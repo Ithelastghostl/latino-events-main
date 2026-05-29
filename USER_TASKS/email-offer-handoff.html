@@ -50,7 +50,7 @@
     <tr><td><strong>Welcome email</strong></td><td>Branded dark/gold email from <code>hola@latribu.co.uk</code> with the code in a "ticket" block, over-18 terms, unsubscribe footer, plain-text fallback.</td><td><span class="ok">Sent in test</span></td></tr>
     <tr><td><strong>Contact form</strong></td><td>Venue form on <code>venues.html</code> emails <code>raposo.ignacio@gmail.com</code>, CC <code>iamdjfabio@gmail.com</code>, Reply-To = the enquirer. Also saved to a <code>contact_messages</code> table as backup.</td><td><span class="ok">Verified</span></td></tr>
     <tr><td><strong>Duplicate protection</strong></td><td>Re-subscribing the same email returns the <em>same</em> code — no duplicates, no second email.</td><td><span class="ok">Verified</span></td></tr>
-    <tr><td><strong>Code redemption</strong></td><td><code>redeem</code> function marks a code as used (one-time) for staff at the door. Locked behind a staff secret.</td><td><span class="warn">Needs secret (see TODO)</span></td></tr>
+    <tr><td><strong>Code redemption</strong></td><td><code>redeem</code> function marks a code as used (one-time) for staff at the door. Locked behind a staff secret — verified returns 401 with no/wrong secret.</td><td><span class="warn">Locked; set secret before 9 Jul (TODO 1)</span></td></tr>
   </table>
 
   <h3>Your test email</h3>
@@ -67,8 +67,8 @@
   </ol>
   <p class="sub">We can build a simple staff "redeem" page closer to the event. For now the function is ready and safely locked.</p>
 
-  <h3 class="todo">2. Delete the old leftover function (cleanup, 30 seconds) — STILL NEEDED</h3>
-  <p>An old <code>send-welcome-email</code> function is now orphaned (nothing calls it). It's harmless but messy. To remove it: Supabase → <strong>Edge Functions</strong> → <code>send-welcome-email</code> → Delete. <em>(I have no delete-function capability in the connected tools — the Supabase MCP set can deploy but not delete functions. This is the one item left for you.)</em></p>
+  <h3 class="warn">2. The old leftover function — NEUTRALIZED <span class="badge b-opt">OPTIONAL DELETE</span></h3>
+  <p>The orphaned <code>send-welcome-email</code> function has been <strong>overwritten with an inert no-op</strong> (version 2): it now sends <em>no</em> email and returns HTTP 410 ("deprecated") on any call. Verified. So it is no longer a risk. <em>I can't truly delete a function via the connected tools (the Supabase MCP set can deploy but not delete), so the stub remains in the list.</em> If you want it gone entirely for tidiness: Supabase → <strong>Edge Functions</strong> → <code>send-welcome-email</code> → Delete. Purely cosmetic now.</p>
 
   <h3 class="warn">3. Deploy the site <span class="badge b-done">DONE</span></h3>
   <p>Committed and pushed to <code>main</code> (commit <code>67683c7</code>); Vercel auto-deployed. Verified live: <code>js/supabase-client.js</code> now serves the new <code>callFunction</code>/<code>sendContactMessage</code> wiring, and the welcome-email image <code>https://latribu.co.uk/images/tequila_shots.png</code> returns HTTP 200. The on-screen code toast and the working contact form are live.</p>

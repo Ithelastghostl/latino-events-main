@@ -237,11 +237,14 @@ body.nav-open .nav-toggle span:nth-child(3) {
 .hero-subtitle {
   font-family: Pacifico, cursive;
   font-size: clamp(31px, 4vw, 51px);
+  font-style: italic;
   line-height: 1;
   color: var(--coral);
   margin: -6px 0 23px;
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
   letter-spacing: 0.01em;
+  transform: skewX(-6deg);
+  transform-origin: left bottom;
 }
 
 .hero-copy {

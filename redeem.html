@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Door Redemption — La Tribu (Staff)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --charcoal:#12100e; --black:#080706; --cream:#f4eadc;
+        --gold:#e2a23c; --coral:#ef5a3f; --magenta:#d92c69;
+        --green:#2fbf6e; --muted:#a99a83;
+      }
+      * { box-sizing:border-box; }
+      body {
+        margin:0; min-height:100vh; background:var(--charcoal); color:var(--cream);
+        font-family:'Inter',Arial,sans-serif; display:flex; flex-direction:column;
+        align-items:center; padding:28px 18px 60px;
+      }
+      .display { font-family:'Bebas Neue',Impact,sans-serif; letter-spacing:1px; }
+      header { text-align:center; margin-bottom:22px; }
+      header h1 { font-size:34px; margin:0; color:var(--gold); letter-spacing:2px; }
+      header p { margin:4px 0 0; color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:2px; }
+      .panel {
+        width:100%; max-width:440px; background:rgba(255,255,255,.03);
+        border:1px solid rgba(226,162,60,.22); border-radius:18px; padding:24px;
+      }
+      label { display:block; font-size:13px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:8px; }
+      input {
+        width:100%; background:var(--black); color:var(--cream);
+        border:2px solid rgba(226,162,60,.3); border-radius:12px;
+        padding:16px 18px; font-size:20px; font-family:'Inter',Arial,sans-serif;
+      }
+      input:focus { outline:none; border-color:var(--gold); }
+      #code {
+        font-family:'Courier New',monospace; font-size:30px; font-weight:700;
+        letter-spacing:4px; text-align:center; text-transform:uppercase;
+      }
+      button {
+        width:100%; margin-top:16px; padding:18px; font-size:18px; font-weight:800;
+        border:none; border-radius:12px; cursor:pointer;
+        background:linear-gradient(135deg,var(--coral),var(--magenta)); color:#fff;
+        letter-spacing:1px; text-transform:uppercase;
+      }
+      button:disabled { opacity:.5; cursor:default; }
+      .result { margin-top:20px; border-radius:14px; padding:22px; text-align:center; }
+      .result-title { margin:0; font-size:26px; font-weight:800; }
+      .result-detail { margin:8px 0 0; font-size:15px; opacity:.9; }
+      .result-ok { background:rgba(47,191,110,.15); border:2px solid var(--green); color:#bff3d3; }
+      .result-bad { background:rgba(239,90,63,.15); border:2px solid var(--coral); color:#ffd4cc; }
+      .result-warn { background:rgba(226,162,60,.15); border:2px solid var(--gold); color:#f6e0b8; }
+      .result-pending { background:rgba(255,255,255,.05); border:2px solid rgba(255,255,255,.15); color:var(--muted); }
+      .error { color:var(--coral); font-size:14px; margin:10px 0 0; min-height:18px; }
+      .foot { margin-top:18px; text-align:center; }
+      .linkbtn {
+        background:none; border:none; color:var(--muted); text-decoration:underline;
+        font-size:13px; width:auto; margin:0; padding:6px; text-transform:none; letter-spacing:0; font-weight:600;
+      }
+      .hint { color:var(--muted); font-size:13px; margin:18px 0 0; text-align:center; line-height:1.5; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 class="display">La Tribu — Door</h1>
+      <p>Staff redemption · 9 July 2026</p>
+    </header>
+
+    <!-- Gate: enter the shared staff password once -->
+    <section class="panel" id="gate" hidden>
+      <form id="gate-form">
+        <label for="secret">Staff password</label>
+        <input id="secret" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Enter staff password">
+        <button type="submit">Unlock</button>
+        <p class="error" id="gate-error"></p>
+      </form>
+      <p class="hint">Ask the organiser for tonight’s password. It stays on this device only until you close the tab.</p>
+    </section>
+
+    <!-- Tool: scan / type a code and redeem it -->
+    <section class="panel" id="tool" hidden>
+      <form id="redeem-form">
+        <label for="code">Customer code</label>
+        <input id="code" type="text" inputmode="latin" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="ABCD-EFGH-JKLM" maxlength="14">
+        <button type="submit" id="redeem-btn">Redeem 2 free shots</button>
+      </form>
+      <div class="result" id="result" hidden></div>
+      <div class="foot">
+        <button type="button" class="linkbtn" id="logout">Lock / change password</button>
+      </div>
+      <p class="hint">Each code works once. Green = pour the shots. Red = already used or invalid.</p>
+    </section>
+
+    <script src="/js/redeem.js"></script>
+  </body>
+</html>

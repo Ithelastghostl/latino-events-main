@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /redeem.html
+Allow: /
+
+Sitemap: https://www.latribu.co.uk/sitemap.xml

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "jcodemunch": {
+      "command": ".venv/bin/jcodemunch-mcp",
+      "args": ["serve", "--transport", "stdio", "--watcher", "false"],
+      "env": {
+        "JCODEMUNCH_NO_TELEMETRY": "1"
+      }
+    }
+  }
+}

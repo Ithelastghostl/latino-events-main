@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How jCodeMunch-MCP works in this repo</title>
+  <style>
+    :root{
+      --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --ink:#e7e9ee;
+      --muted:#9aa3b2; --line:#2a2f3a; --accent:#4fd1c5; --warn:#f6c453;
+      --bad:#f78c6b; --good:#7ee787; --code:#0b0d11;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);
+      font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .wrap{max-width:900px;margin:0 auto;padding:40px 22px 80px}
+    h1{font-size:30px;margin:0 0 6px;letter-spacing:-.02em}
+    h2{font-size:20px;margin:38px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
+    h3{font-size:15px;margin:20px 0 6px;color:var(--accent)}
+    p{margin:10px 0}
+    .lede{color:var(--muted);font-size:16px}
+    .tag{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:3px 10px;margin-bottom:18px}
+    code{background:var(--code);border:1px solid var(--line);border-radius:5px;
+      padding:1px 6px;font:13px/1.5 "SF Mono",ui-monospace,Menlo,Consolas,monospace;color:#d7dbe4}
+    pre{background:var(--code);border:1px solid var(--line);border-radius:9px;
+      padding:14px 16px;overflow:auto;margin:12px 0}
+    pre code{background:none;border:none;padding:0;color:#cdd3de}
+    table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+    th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+    th{color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+    tr td:first-child{white-space:nowrap}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:680px){.cols{grid-template-columns:1fr}}
+    .callout{border-left:3px solid var(--warn);background:var(--panel2);border-radius:0 9px 9px 0;padding:12px 16px;margin:16px 0}
+    .callout.bad{border-color:var(--bad)}
+    .callout.good{border-color:var(--good)}
+    .callout .k{font-weight:700;color:var(--warn)}
+    .callout.bad .k{color:var(--bad)}
+    .callout.good .k{color:var(--good)}
+    .pill{font-size:12px;padding:2px 8px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+    .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+    .flow .step{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:13px}
+    .flow .arr{color:var(--muted)}
+    .muted{color:var(--muted)}
+    .kbd{font-size:12px;color:var(--muted)}
+    ul{margin:10px 0;padding-left:20px}
+    li{margin:5px 0}
+    .num{color:var(--accent);font-weight:700}
+    .foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+    .bar{height:10px;border-radius:5px;background:var(--panel2);overflow:hidden;border:1px solid var(--line);margin:3px 0}
+    .bar > span{display:block;height:100%}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="tag">Internal notes · observed behaviour</span>
+  <h1>jCodeMunch-MCP — what it does, in this repo</h1>
+  <p class="lede">A plain-English explainer of the code-indexing tool we installed on <code>latino-events</code>.
+    Everything below is written from what the tool <em>actually did</em> when run here on 2026-07-01 —
+    not from its marketing README.</p>
+
+  <div class="callout">
+    <span class="k">One-line summary.</span> It is an <strong>MCP server</strong> that parses your code into a
+    searchable <strong>symbol index</strong> (a database of every function, class, CSS rule, etc.), so an AI
+    agent can fetch <em>just the function it needs</em> instead of reading whole files. It saves tokens on
+    <strong>big</strong> codebases. This repo is small, so the benefit here is modest — see the honest note at the end.
+  </div>
+
+  <!-- ============================================================= -->
+  <h2>1 · The core idea</h2>
+  <p>Normally, when an AI agent wants to change <code>redeem()</code>, it opens the entire
+    <code>js/redeem.js</code> file, reads all ~120 lines, finds the function, and works from there.
+    Multiply that across a large project and it burns a lot of tokens reading code it doesn't need.</p>
+  <p>jCodeMunch flips this. It reads your whole codebase <strong>once</strong> and records, for every symbol,
+    exactly <em>where</em> it lives (file + line range + byte offset). After that, the agent can ask
+    "give me the source of <code>redeem</code>" and get back <em>only</em> those 50 lines.</p>
+
+  <div class="flow">
+    <span class="step">Agent needs <code>generateOfferCode</code></span>
+    <span class="arr">→</span>
+    <span class="step">query the index</span>
+    <span class="arr">→</span>
+    <span class="step">index knows: <code>util.ts</code> L7–12</span>
+    <span class="arr">→</span>
+    <span class="step">return just those 6 lines</span>
+  </div>
+
+  <!-- ============================================================= -->
+  <h2>2 · What it did in <em>this</em> repo</h2>
+  <p>When we ran <code>jcodemunch-mcp index .</code> it scanned the project in <strong>0.18s</strong> and built an
+    index of <strong>13 files</strong> containing <strong>401 symbols</strong>. Here's the breakdown by language:</p>
+
+  <table>
+    <thead><tr><th>Language</th><th>Symbols</th><th>Share</th></tr></thead>
+    <tbody>
+      <tr><td>CSS (selectors)</td><td>253</td><td><div class="bar"><span style="width:63%;background:#4fd1c5"></span></div></td></tr>
+      <tr><td>YAML (workflow keys)</td><td>62</td><td><div class="bar"><span style="width:15%;background:#f6c453"></span></div></td></tr>
+      <tr><td>TypeScript (functions)</td><td>51</td><td><div class="bar"><span style="width:13%;background:#7ee787"></span></div></td></tr>
+      <tr><td>JavaScript (functions)</td><td>33</td><td><div class="bar"><span style="width:8%;background:#7ee787"></span></div></td></tr>
+      <tr><td>JSON</td><td>2</td><td><div class="bar"><span style="width:1%;background:#9aa3b2"></span></div></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout bad">
+    <span class="k">Important gap.</span> Your <strong>six <code>.html</code> pages were NOT indexed</strong>
+    — the tool has no HTML extractor, so <code>index.html</code>, <code>djs.html</code>,
+    <code>promotions.html</code>, etc. are invisible to it. For a static site whose bulk <em>is</em> HTML, that's
+    a real limitation. The genuinely useful part it captured is the <strong>~84 JavaScript/TypeScript
+    functions</strong> in <code>js/</code> and <code>supabase/functions/</code>.
+  </div>
+
+  <h3>The useful bit: your backend + client functions, precisely located</h3>
+  <p>These are the symbols where the tool earns its keep — every function in your Supabase edge functions and
+    client JS, each pinned to an exact line range:</p>
+  <pre><code>supabase/functions/util.ts     generateOfferCode   L7–12
+supabase/functions/util.ts     isValidEmail        L15–17
+supabase/functions/util.ts     sendEmail           L44–77
+supabase/functions/emails.ts   welcomeEmail        L50–104
+supabase/functions/emails.ts   promoEmail          L107–132
+js/supabase-client.js          callFunction        L8–19
+js/supabase-client.js          subscribeEmail      L21–24
+js/redeem.js                   redeem              L50–100</code></pre>
+
+  <!-- ============================================================= -->
+  <h2>3 · Which files it created (and where)</h2>
+  <p>The tool does <strong>not</strong> store anything meaningful inside this repo (we git-ignored its scratch
+    dirs). Its real data lives in your home directory:</p>
+
+  <table>
+    <thead><tr><th>Path</th><th>What it is</th><th>In repo?</th></tr></thead>
+    <tbody>
+      <tr><td><code>~/.code-index/…latino-events-main.db</code></td><td>SQLite database — the actual symbol index (360&nbsp;KB). Tables: <code>symbols</code>, <code>files</code>, plus <code>runtime_*</code> tables for an optional trace feature we don't use.</td><td>No <span class="pill">home dir</span></td></tr>
+      <tr><td><code>~/.code-index/…latino-events-main/</code></td><td>A mirror copy of your source files the tool keeps for fast re-reads.</td><td>No <span class="pill">home dir</span></td></tr>
+      <tr><td><code>~/.code-index/config.jsonc</code></td><td>Global tool configuration.</td><td>No <span class="pill">home dir</span></td></tr>
+      <tr><td><code>.venv/</code></td><td>Isolated Python environment the tool is installed into.</td><td>Git-ignored</td></tr>
+      <tr><td><code>.venv-tools/</code></td><td>Bootstrap pip/virtualenv (this machine had no pip).</td><td>Git-ignored</td></tr>
+      <tr><td><code>.mcp.json</code></td><td><strong>Committed.</strong> Registers the server with Claude Code for this project only.</td><td>Yes ✓</td></tr>
+      <tr><td><code>.gitignore</code></td><td>Updated to exclude <code>.venv</code>, <code>.venv-tools</code>, <code>.code-index</code>.</td><td>Yes ✓</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="k">Privacy note.</span> The index and a copy of your source sit in <code>~/.code-index/</code>.
+    It's local to your machine (nothing is uploaded by the indexing step). To wipe it completely:
+    <code>jcodemunch-mcp delete-index</code> or just delete the <code>~/.code-index/</code> folder.
+  </div>
+
+  <!-- ============================================================= -->
+  <h2>4 · How it gets used by an agent</h2>
+  <p>Once registered, Claude Code sees it as an MCP server exposing a set of tools (the package advertises 60+;
+    the ones that matter for a repo this size):</p>
+
+  <div class="cols">
+    <div class="panel">
+      <h3 style="margin-top:0">Retrieval (the point)</h3>
+      <ul>
+        <li><code>search_symbols</code> — find a function/class by name</li>
+        <li><code>get_symbol_source</code> — fetch just that symbol's code</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Structure</h3>
+      <ul>
+        <li><code>find_importers</code> — who calls this?</li>
+        <li><code>get_blast_radius</code> — what breaks if I change it?</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Health</h3>
+      <ul>
+        <li><code>find_dead_code</code> — unused symbols</li>
+        <li><code>get_untested_symbols</code> — functions with no tests</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Not enabled here</h3>
+      <ul>
+        <li class="muted">background file watcher (auto-reindex) — <strong>off</strong></li>
+        <li class="muted">Claude Code hooks that intercept your reads — <strong>not installed</strong></li>
+        <li class="muted">org telemetry / transcript "receipts" — <strong>off</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>The typical loop</h3>
+  <div class="flow">
+    <span class="step"><span class="num">1</span> index once</span>
+    <span class="arr">→</span>
+    <span class="step"><span class="num">2</span> agent asks <code>search_symbols("redeem")</code></span>
+    <span class="arr">→</span>
+    <span class="step"><span class="num">3</span> <code>get_symbol_source</code> returns L50–100</span>
+    <span class="arr">→</span>
+    <span class="step"><span class="num">4</span> agent edits, tool re-indexes that one file</span>
+  </div>
+
+  <!-- ============================================================= -->
+  <h2>5 · How we set it up (deliberately conservative)</h2>
+  <p>We avoided the tool's one-command <code>init</code> because it's aggressive — it edits MCP config,
+    installs Claude Code <em>hooks</em>, and writes its own <code>CLAUDE.md</code> policy. Instead we did the two
+    discrete, reversible steps:</p>
+  <pre><code># 1. Installed in an isolated venv (no system changes, no sudo)
+.venv/bin/pip install jcodemunch-mcp
+
+# 2. Indexed the repo locally
+.venv/bin/jcodemunch-mcp index .
+
+# 3. Registered project-scoped only, watcher OFF, in .mcp.json</code></pre>
+  <p class="muted">To activate: reload Claude Code and approve the <code>jcodemunch</code> server when prompted.
+    To remove everything: delete <code>.venv</code>, <code>.venv-tools</code>, <code>.mcp.json</code>,
+    and <code>~/.code-index/</code>.</p>
+
+  <!-- ============================================================= -->
+  <h2>6 · The honest verdict for this repo</h2>
+  <div class="callout good">
+    <span class="k">Where it helps.</span> The Supabase backend (<code>supabase/functions/</code>) and client JS
+    are real code with real functions — symbol-level retrieval there is legitimately handy, and will matter
+    more as that backend grows.
+  </div>
+  <div class="callout bad">
+    <span class="k">Where it doesn't.</span> The token-saving payoff scales with codebase size, and this repo is
+    tiny (fits in one context window). It also can't see your HTML, and ~78% of the "symbols" it found are CSS
+    selectors and YAML keys, not code you'd retrieve. So treat this as a <strong>trial</strong> that pays off
+    if/when the backend or a framework migration grows the codebase — not a must-have today.
+  </div>
+
+  <p class="foot">
+    Generated from observed tool behaviour on this repository · jcodemunch-mcp v1.108.90 ·
+    installed in <code>.venv</code>, registered project-scoped in <code>.mcp.json</code>.<br>
+    Frontend-adjacent tooling — flagged for Codex cross-review per the repo's ownership split.
+  </p>
+
+</div>
+</body>
+</html>

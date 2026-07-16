@@ -1,0 +1,19 @@
+# gitleaks config for the La Tribu static site.
+#
+# The Supabase ANON key is a PUBLIC, client-side key (JWT with "role":"anon")
+# and is intended to ship in the browser bundle. We allowlist it so the secret
+# scan does not flag it. This does NOT exempt the service_role key — if a
+# service_role JWT is ever committed, gitleaks should (and will) fail.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public Supabase anon key — safe to expose client-side"
+regexes = [
+  # The anon JWT embedded in js/supabase-client.js
+  '''eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.eyJpc3MiOiJzdXBhYmFzZS[^"'\s]+''',
+]
+paths = [
+  '''js/supabase-client\.js''',
+]

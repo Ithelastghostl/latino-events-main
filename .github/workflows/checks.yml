@@ -1,0 +1,48 @@
+name: Quality gates
+
+# Runs on every PR and on pushes to main. These are pre-deploy checks —
+# Vercel still owns the actual deploy; this just catches broken pages and
+# leaked secrets before they ship.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: Broken-link check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links in HTML
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Only check the static HTML pages; skip the supabase/ backend dir.
+          args: --no-progress --accept 200,206,429 './*.html'
+          fail: true
+
+  htmlhint:
+    name: HTML lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run HTMLHint
+        run: npx --yes htmlhint "*.html"
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Scan for committed secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

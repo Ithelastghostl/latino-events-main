@@ -3,14 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Promotions | La Tribu London</title>
-    <meta name="description" content="Current La Tribu deals, birthday offers, partner perks, and limited spots for London's Latin events.">
-    <link rel="canonical" href="https://www.latribu.co.uk/promotions.html">
+    <title>Our DJs | La Tribu London</title>
+    <meta name="description" content="Meet the DJs bringing salsa, reggaeton, bachata, and cumbia to La Tribu London.">
+    <link rel="canonical" href="https://www.latribu.co.uk/djs.html">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="/js/supabase-client.js"></script>
     <script src="/js/posthog-init.js"></script>
   </head>
@@ -21,8 +20,8 @@
         <nav class="nav-links" aria-label="Primary navigation">
           <a href="index.html">Home</a>
           <a href="index.html#events">Events</a>
-          <a href="djs.html">Our DJs</a>
-          <a class="active" href="promotions.html">Promotions</a>
+          <a class="active" href="djs.html" aria-current="page">Our DJs</a>
+          <a href="promotions.html">Promotions</a>
           <a href="past-events.html">Past Events</a>
           <a href="venues.html">Venues</a>
         </nav>
@@ -34,99 +33,85 @@
 
     <main class="page">
 
-      <!-- Page Hero -->
-      <section class="hero promo-hero">
-        <img class="hero-bg" src="images/event-brunch.webp" alt="" aria-hidden="true">
+      <!-- Hero -->
+      <section class="hero" style="min-height: 480px;">
+        <img class="hero-bg" src="images/dj-1.webp" alt="" aria-hidden="true">
         <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <p class="script eyebrow">Deals with Sabor</p>
-          <h1 class="hero-title promo-title">PROMOTIONS</h1>
-          <p class="hero-copy">Exclusive deals, birthday love, and partner perks for the people who keep La Tribu moving.</p>
+        <div class="hero-content" style="padding: 140px 0 60px;">
+          <p class="hero-subtitle" style="margin-top: 0; margin-bottom: 6px; font-size: clamp(24px, 3vw, 38px);">Behind the Decks</p>
+          <h1 class="hero-title" style="font-size: clamp(80px, 9vw, 140px);">OUR DJs</h1>
+          <p class="hero-copy">Selectors who know how to read the room, lift the energy, and keep every generation moving. Salsa, reggaeton, bachata, cumbia, and the blends that make London dance as one familia.</p>
         </div>
       </section>
 
-      <!-- Current Deals -->
-      <section class="cream-section promo-deals">
+      <!-- DJ Profiles -->
+      <section class="cream-section dj-profiles-section">
         <div class="container">
           <div class="section-head">
             <div>
-              <p class="script eyebrow">Current Deals</p>
-              <h2 class="display section-title">Grab It Before It Goes</h2>
+              <p class="script eyebrow">Meet the Crew</p>
+              <h2 class="display section-title">Sounds You Feel First</h2>
             </div>
           </div>
-          <p class="promo-section-intro">The best nights move fast. Lock in your spot, then tell the group chat.</p>
-          <div class="promo-grid">
-            <article class="promo-card">
-              <span class="promo-badge">Early Bird</span>
-              <span class="promo-price display">From &pound;8</span>
-              <h3 class="promo-name">First Release Tickets</h3>
-              <p>Lowest-price entry for the next La Tribu night. This week only, while the first release lasts.</p>
-              <a class="primary-cta" href="https://www.fatsoma.com/e/yojle63j/la-tribu-launch-party?utm_campaign=prom_ss&amp;utm_medium=social&amp;utm_source=dynamic">Get Your Tickets</a>
+          <div class="dj-profiles">
+            <article class="dj-card">
+              <div class="dj-card-img">
+                <img src="images/dj-1.webp" alt="DJ Fuego performing at La Tribu">
+              </div>
+              <div class="dj-card-info">
+                <h3 class="display dj-name">DJ Fuego</h3>
+                <div class="dj-genres"><span class="genre-tag">Reggaeton</span><span class="genre-tag">Salsa</span></div>
+                <p>Big-room reggaeton, salsa classics, and sudden sing-along moments. Fuego turns the first track into a full-room promise.</p>
+                <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=Book%20DJ%20Fuego">Book DJ Fuego</a>
+              </div>
             </article>
-            <article class="promo-card">
-              <span class="promo-badge">Limited Spots</span>
-              <span class="promo-price display">4 for 3</span>
-              <h3 class="promo-name">Familia Bundle</h3>
-              <p>Bring four people and pay for three on selected events. Perfect for birthdays, reunions, and big catch-ups.</p>
-              <a class="primary-cta" href="https://www.fatsoma.com/e/yojle63j/la-tribu-launch-party?utm_campaign=prom_ss&amp;utm_medium=social&amp;utm_source=dynamic">Get Your Tickets</a>
+            <article class="dj-card">
+              <div class="dj-card-img">
+                <img src="images/dj-2.webp" alt="DJ Ritmo mixing Latin music">
+              </div>
+              <div class="dj-card-info">
+                <h3 class="display dj-name">DJ Ritmo</h3>
+                <div class="dj-genres"><span class="genre-tag">Salsa</span><span class="genre-tag">Cumbia</span></div>
+                <p>A dancer's DJ with clean salsa switches and deep tropical sabor. Ritmo keeps the floor smiling from warm-up to last call.</p>
+                <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=Book%20DJ%20Ritmo">Book DJ Ritmo</a>
+              </div>
             </article>
-            <article class="promo-card">
-              <span class="promo-badge">This Weekend Only</span>
-              <span class="promo-price display">Free Shot</span>
-              <h3 class="promo-name">Birthday Table Perk</h3>
-              <p>Book a birthday table this weekend and your group gets a welcome shot on arrival. Subject to venue capacity.</p>
-              <a class="primary-cta" href="https://www.fatsoma.com/e/yojle63j/la-tribu-launch-party?utm_campaign=prom_ss&amp;utm_medium=social&amp;utm_source=dynamic">Get Your Tickets</a>
+            <article class="dj-card">
+              <div class="dj-card-img">
+                <img src="images/dj-3.webp" alt="DJ Corazon playing bachata">
+              </div>
+              <div class="dj-card-info">
+                <h3 class="display dj-name">DJ Corazon</h3>
+                <div class="dj-genres"><span class="genre-tag">Bachata</span><span class="genre-tag">Salsa</span></div>
+                <p>Romantic bachata, smooth transitions, and late-night tracks that pull everyone closer. Corazon brings the heart of the noche.</p>
+                <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=Book%20DJ%20Corazon">Book DJ Corazon</a>
+              </div>
+            </article>
+            <article class="dj-card">
+              <div class="dj-card-img">
+                <img src="images/dj-4.webp" alt="DJ Cumbia King hyping a La Tribu crowd">
+              </div>
+              <div class="dj-card-info">
+                <h3 class="display dj-name">DJ Cumbia King</h3>
+                <div class="dj-genres"><span class="genre-tag">Cumbia</span><span class="genre-tag">Reggaeton</span></div>
+                <p>Cumbia, edits, throwbacks, and cheeky surprises. He brings the family-party energy, then turns it all the way up.</p>
+                <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=Book%20DJ%20Cumbia%20King">Book DJ Cumbia King</a>
+              </div>
             </article>
           </div>
           <div class="ornament"><span>&#x2726;</span></div>
         </div>
       </section>
 
-      <!-- Partner Offers -->
-      <section class="promo-partners">
+      <!-- Booking CTA -->
+      <section class="community dj-booking-cta">
         <div class="container">
-          <div class="section-head">
-            <div>
-              <p class="script eyebrow">Partner Offers</p>
-              <h2 class="display section-title">Before And After The Noche</h2>
-            </div>
+          <div class="dj-booking-content">
+            <span class="script">Need the sound?</span>
+            <h2 class="display">Book La Tribu DJs</h2>
+            <p>From venue takeovers to private fiestas, we match the right DJ to the crowd, the room, and the moment.</p>
+            <a class="btn btn-primary" href="mailto:hello@latribu.london?subject=DJ%20Booking">Let's Talk</a>
           </div>
-          <p class="promo-section-intro promo-section-intro--light">We team up with local spots so your whole night feels easy, warm, and full of sabor.</p>
-          <div class="promo-grid">
-            <article class="promo-card">
-              <span class="promo-badge">Food</span>
-              <h3 class="promo-name">Arepa Hour</h3>
-              <p>Show your La Tribu ticket at our partner kitchen for 15% off selected arepas before 8pm.</p>
-            </article>
-            <article class="promo-card">
-              <span class="promo-badge">Drinks</span>
-              <h3 class="promo-name">Two Mojitos</h3>
-              <p>Ticket holders get two house mojitos for a partner price during the first hour after doors open.</p>
-            </article>
-            <article class="promo-card">
-              <span class="promo-badge">Dance</span>
-              <h3 class="promo-name">Class Drop-In</h3>
-              <p>Try a beginner salsa or bachata class with a local teacher and get a discounted La Tribu ticket after class.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- Email Signup CTA -->
-      <section class="promo-cta">
-        <div class="container promo-cta-inner">
-          <div>
-            <p class="script eyebrow">First Access</p>
-            <h2 class="display section-title" style="color: #fff3df;">Deals Hit Email First</h2>
-            <p class="promo-cta-copy">Join the list for early bird drops, secret birthday perks, and limited spots before they land on socials.</p>
-          </div>
-          <form data-signup-form>
-            <div class="signup-row">
-              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
-              <button class="subscribe" type="submit">Join the Tribe</button>
-            </div>
-            <p class="form-status" data-signup-status aria-live="polite"></p>
-          </form>
         </div>
       </section>
 

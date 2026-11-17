@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="/js/supabase-client.js"></script>
     <script src="/js/posthog-init.js"></script>
   </head>
@@ -230,20 +229,8 @@
           `;
         }
 
-        const isVisible = visibleSignInEvent === eventId;
-        return `
-          <button class="primary-cta" type="button" data-show-signin="${escapeHtml(eventId)}">Sign In to See Photos</button>
-          <div class="signin-panel ${isVisible ? "visible" : ""}" id="signin-${escapeHtml(eventId)}">
-            <p>Sign in to relive the night.</p>
-            <form data-photo-signin="${escapeHtml(eventId)}">
-              <div class="form-row">
-                <input type="email" name="email" placeholder="your@email.com" aria-label="Email address for magic link" required>
-                <button class="primary-cta" type="submit">Send Link</button>
-              </div>
-              <p class="form-status" data-auth-status aria-live="polite"></p>
-            </form>
-          </div>
-        `;
+        // Photo sign-in (Supabase magic link) was removed in the Cloudflare move: no users, no events.
+        return "";
       }
 
       function renderEvents() {

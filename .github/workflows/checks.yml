@@ -20,8 +20,9 @@ jobs:
       - name: Check links in HTML
         uses: lycheeverse/lychee-action@v2
         with:
-          # Only check the served HTML pages (public/).
-          args: --no-progress --accept 200,206,429 './public/*.html'
+          # Only check the served HTML pages (public/). whatsapp-qr.webp is a pending asset
+          # (USER_TASKS/action-report.html, section 5); the pages hide the image until it exists.
+          args: --no-progress --accept 200,206,429 --exclude 'whatsapp-qr\.webp$' './public/*.html'
           fail: true
 
   htmlhint:

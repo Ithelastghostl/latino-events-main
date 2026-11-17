@@ -87,7 +87,7 @@
             <h2 class="display">We Are La Tribu.</h2>
             <div class="community-signup">
               <p>First access to tickets, promotions and events. Drop your email.</p>
-              <form data-signup-form>
+              <form data-signup-form method="post">
                 <div class="signup-row">
                   <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
                   <button class="subscribe" type="submit">Join the Tribe</button>
@@ -142,7 +142,7 @@
           <section>
             <h2 class="footer-title">Join the Tribe</h2>
             <p>Be the first to know about new events, exclusive offers and community news.</p>
-            <form data-signup-form>
+            <form data-signup-form method="post">
               <div class="signup-row">
                 <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
                 <button class="subscribe" type="submit">Join</button>
@@ -154,7 +154,7 @@
             <h2 class="footer-title">WhatsApp</h2>
             <p>Ticket drops and last-minute plans. Scan or tap in.</p>
             <a class="qr-placeholder" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
-              <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" onerror="this.hidden=true">
+              <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" data-hide-on-error>
             </a>
           </section>
           <section>
@@ -176,58 +176,10 @@
         <span class="toast-icon" id="toast-icon"></span>
         <p class="toast-title" id="toast-title"></p>
         <p class="toast-message" id="toast-message"></p>
-        <button class="toast-close" type="button" onclick="closeToast()">Got It</button>
+        <button class="toast-close" type="button">Got It</button>
       </div>
     </div>
 
-    <script>
-      function showToast(success, message) {
-        const toast = document.getElementById("signup-toast");
-        document.getElementById("toast-icon").textContent = success ? "🎉" : "⚠️";
-        document.getElementById("toast-title").textContent = success ? "You're In!" : "Oops";
-        document.getElementById("toast-message").textContent = message;
-        toast.className = success ? "toast visible" : "toast visible toast-error";
-      }
-
-      function closeToast() {
-        document.getElementById("signup-toast").classList.remove("visible");
-      }
-
-      document.getElementById("signup-toast").addEventListener("click", (e) => {
-        if (e.target === e.currentTarget) closeToast();
-      });
-
-      const navToggle = document.querySelector(".nav-toggle");
-      const navLinks = document.querySelectorAll(".nav-links a");
-      navToggle.addEventListener("click", () => {
-        const isOpen = document.body.classList.toggle("nav-open");
-        navToggle.setAttribute("aria-expanded", String(isOpen));
-      });
-      navLinks.forEach((link) => link.addEventListener("click", () => {
-        document.body.classList.remove("nav-open");
-        navToggle.setAttribute("aria-expanded", "false");
-      }));
-
-      document.querySelectorAll("[data-signup-form]").forEach((form) => {
-        const status = form.querySelector("[data-signup-status]");
-        form.addEventListener("submit", async (event) => {
-          event.preventDefault();
-          status.className = "form-status";
-          status.textContent = "Joining...";
-          const email = new FormData(form).get("email");
-          try {
-            const result = await subscribeEmail(email);
-            status.textContent = result.message;
-            status.classList.add(result.success ? "success" : "error");
-            if (result.success) { form.reset(); showToast(true, result.message); }
-            else { showToast(false, result.message); }
-          } catch (error) {
-            status.textContent = "Something went wrong. Please try again.";
-            status.classList.add("error");
-            showToast(false, "Something went wrong. Please try again.");
-          }
-        });
-      });
-    </script>
+    <script src="/js/index.js" defer></script>
   </body>
 </html>

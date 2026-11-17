@@ -25,6 +25,12 @@
   "secrets": {
     "required": ["WRITES_ENABLED", "CRONS_ENABLED", "RESEND_API_KEY", "STAFF_SECRET"]
   },
+  "ratelimits": [
+    // Per-IP throttles (worker/index.ts). namespace_id is account-wide, so these are unique to La Tribu.
+    { "name": "SUBSCRIBE_LIMITER", "namespace_id": "41701", "simple": { "limit": 5, "period": 60 } },
+    { "name": "CONTACT_LIMITER", "namespace_id": "41702", "simple": { "limit": 5, "period": 60 } },
+    { "name": "REDEEM_LIMITER", "namespace_id": "41703", "simple": { "limit": 20, "period": 60 } }
+  ],
   "observability": { "enabled": true, "head_sampling_rate": 1 },
   "workers_dev": true,
   "preview_urls": false

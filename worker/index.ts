@@ -3,6 +3,26 @@ import { contact, pastEvents, redeem, REDEEM_PREFLIGHT_HEADERS, subscribe, type 
 import { isOpen, MAINTENANCE_MESSAGE } from "./switches";
 import { CORS_HEADERS, json } from "./util";
 
+// Per-IP throttles, one Rate Limiting binding per write route (limits live in wrangler config).
+const LIMITERS: Record<string, "SUBSCRIBE_LIMITER" | "CONTACT_LIMITER" | "REDEEM_LIMITER"> = {
+  "/api/subscribe": "SUBSCRIBE_LIMITER",
+  "/api/contact": "CONTACT_LIMITER",
+  "/api/redeem": "REDEEM_LIMITER",
+};
+
+// True when the caller is over the limit. A missing or failing binding fails open: the throttle must not take the forms down.
+async function isRateLimited(pathname: string, req: Request, env: Env): Promise<boolean> {
+  const limiter = env[LIMITERS[pathname]];
+  if (!limiter) return false;
+  try {
+    const { success } = await limiter.limit({ key: req.headers.get("cf-connecting-ip") ?? "unknown" });
+    return !success;
+  } catch (error) {
+    console.error("rate limiter error", error);
+    return false;
+  }
+}
+
 // The entry module exports only the handler: workerd rejects other named exports.
 
 const READ_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
@@ -35,6 +55,13 @@ export default {
     // Write fence. Both body shapes used by the pages carry the message.
     if (!isOpen(env.WRITES_ENABLED)) {
       return json({ success: false, ok: false, message: MAINTENANCE_MESSAGE }, 503);
+    }
+
+    // Throttle before any D1 or Resend call.
+    if (await isRateLimited(pathname, req, env)) {
+      return json({ success: false, ok: false, message: "Too many requests. Please wait a minute and try again." }, 429, {
+        "Retry-After": "60",
+      });
     }
 
     // write_start / write_end are the drain evidence for the cutover gate (2.8).

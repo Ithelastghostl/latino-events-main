@@ -19,6 +19,10 @@ export interface Env {
   CRONS_ENABLED?: string;
   RESEND_API_KEY?: string;
   STAFF_SECRET?: string;
+  // Workers Rate Limiting bindings (wrangler "ratelimits"); optional so a missing binding fails open.
+  SUBSCRIBE_LIMITER?: RateLimit;
+  CONTACT_LIMITER?: RateLimit;
+  REDEEM_LIMITER?: RateLimit;
 }
 
 const OFFER_DATE = "2026-05-29"; // codes only minted for signups on this London date
@@ -108,6 +112,15 @@ function esc(s: string): string {
   return s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]!);
 }
 
+// Neither the D1 insert nor the email succeeded: the enquiry is lost, so the browser must keep the form.
+function contactFailed(): Response {
+  return json(
+    { success: false, message: "We couldn't send your message right now. Please try again in a moment." },
+    503,
+    { "Retry-After": "30" },
+  );
+}
+
 export async function contact(req: Request, env: Env): Promise<Response> {
   if (req.method !== "POST") return json({ success: false, message: "Method not allowed" }, 405);
 
@@ -127,12 +140,14 @@ export async function contact(req: Request, env: Env): Promise<Response> {
   }
 
   // Store first (backup) so an enquiry is never lost even if email fails.
+  let stored = false;
   try {
     await env.DB.prepare(
       "INSERT INTO contact_messages (id, name, venue, email, message, created_at) VALUES (?, ?, ?, ?, ?, ?)",
     )
       .bind(crypto.randomUUID(), name, venue || null, email, message, now())
       .run();
+    stored = true;
   } catch (dbErr) {
     console.error("contact insert error", dbErr);
   }
@@ -140,6 +155,7 @@ export async function contact(req: Request, env: Env): Promise<Response> {
   const apiKey = env.RESEND_API_KEY;
   if (!apiKey) {
     console.error("RESEND_API_KEY not set — contact email skipped");
+    if (!stored) return contactFailed();
     // Still succeeded in storing; tell the user we got it.
     return json({ success: true, message: "Thanks! We've received your message and will be in touch." });
   }
@@ -165,6 +181,7 @@ export async function contact(req: Request, env: Env): Promise<Response> {
     });
   } catch (e) {
     console.error("contact email failed", e);
+    if (!stored) return contactFailed();
     // DB has it; report soft success so the user isn't told to retry endlessly.
     return json({ success: true, message: "Thanks! We've received your message and will be in touch." });
   }
@@ -213,15 +230,30 @@ export async function redeem(req: Request, env: Env): Promise<Response> {
     });
   }
 
+  let changes = 0;
   try {
-    await env.DB.prepare(
+    const res = await env.DB.prepare(
       "UPDATE subscribers SET offer_code_redeemed = 1, offer_code_redeemed_at = ? WHERE offer_code = ? AND offer_code_redeemed = 0",
     )
       .bind(now(), code)
       .run();
+    changes = res.meta.changes;
   } catch (updErr) {
     console.error("redeem update error", updErr);
     return json({ ok: false, message: "Update failed." }, 500);
+  }
+
+  if (changes === 0) {
+    // A concurrent request redeemed the code between our read and this update.
+    const winner = await env.DB.prepare("SELECT offer_code_redeemed_at FROM subscribers WHERE offer_code = ?")
+      .bind(code)
+      .first<{ offer_code_redeemed_at: string | null }>();
+    return json({
+      ok: false,
+      status: "already_used",
+      message: `Already redeemed at ${winner?.offer_code_redeemed_at ?? "an earlier time"}.`,
+      event: row.offer_event,
+    });
   }
 
   return json({ ok: true, status: "redeemed", message: "Valid — 2 free shots. Marked as used.", event: row.offer_event });

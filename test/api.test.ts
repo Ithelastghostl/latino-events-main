@@ -10,10 +10,12 @@ const OPEN: Env = { ...env, WRITES_ENABLED: "true" };
 function call(path: string, init: RequestInit = {}, e: Env = OPEN): Promise<Response> {
   return worker.fetch(new Request(ORIGIN + path, init), e);
 }
+let ipCounter = 0;
 function post(path: string, body: unknown, headers: Record<string, string> = {}, e: Env = OPEN) {
   return call(path, {
     method: "POST",
-    headers: { "Content-Type": "application/json", ...headers },
+    // A fresh IP per call keeps the real local rate-limit bindings out of unrelated tests.
+    headers: { "Content-Type": "application/json", "cf-connecting-ip": `203.0.113.${(++ipCounter % 250) + 1}`, ...headers },
     body: typeof body === "string" ? body : JSON.stringify(body),
   }, e);
 }
@@ -176,6 +178,28 @@ describe("POST /api/contact", () => {
     expect(await env.DB.prepare("SELECT venue FROM contact_messages WHERE email = ?").bind(email).first("venue")).toBeNull();
   });
 
+  it("returns a retryable 503 when both the D1 insert and the email fail", async () => {
+    resend.mockImplementation(async () => new Response("down", { status: 503 }));
+    const failingDb = { prepare: () => { throw new Error("D1 down"); } } as unknown as D1Database;
+    const res = await post("/api/contact", { name: "Ana", email: uniqueEmail(), message: "Hi" }, {}, { ...OPEN, DB: failingDb });
+    expect(res.status).toBe(503);
+    expect(res.headers.get("Retry-After")).toBe("30");
+    expect(await res.json()).toMatchObject({ success: false });
+  });
+
+  it("returns a retryable 503 when the insert fails and RESEND_API_KEY is unset", async () => {
+    const failingDb = { prepare: () => { throw new Error("D1 down"); } } as unknown as D1Database;
+    const res = await post("/api/contact", { name: "Ana", email: uniqueEmail(), message: "Hi" }, {}, { ...OPEN, DB: failingDb, RESEND_API_KEY: undefined });
+    expect(res.status).toBe(503);
+  });
+
+  it("still succeeds when only the insert fails but the email is sent", async () => {
+    const failingDb = { prepare: () => { throw new Error("D1 down"); } } as unknown as D1Database;
+    const res = await post("/api/contact", { name: "Ana", email: uniqueEmail(), message: "Hi" }, {}, { ...OPEN, DB: failingDb });
+    expect(res.status).toBe(200);
+    expect(resend).toHaveBeenCalledTimes(1);
+  });
+
   it("stores without emailing when RESEND_API_KEY is unset", async () => {
     const res = await post("/api/contact", { name: "Ana", email: uniqueEmail(), message: "Hi" }, {}, { ...OPEN, RESEND_API_KEY: undefined });
     expect(await res.json()).toEqual({ success: true, message: "Thanks! We've received your message and will be in touch." });
@@ -189,6 +213,51 @@ describe("POST /api/contact", () => {
     const res = await post("/api/contact", body);
     expect(res.status).toBe(400);
     expect(await res.json()).toEqual({ success: false, message });
+  });
+});
+
+describe("rate limiting", () => {
+  const limiter = (allow: number) => {
+    let used = 0;
+    return { limit: vi.fn(async () => ({ success: used++ < allow })) } as unknown as RateLimit;
+  };
+
+  it.each([
+    ["/api/subscribe", "SUBSCRIBE_LIMITER", () => ({ email: uniqueEmail() })],
+    ["/api/contact", "CONTACT_LIMITER", () => ({ name: "Ana", email: uniqueEmail(), message: "Hi" })],
+  ] as const)("%s returns 429 before touching D1 or Resend once the per-IP limit is hit", async (path, binding, body) => {
+    const lim = limiter(1);
+    const e: Env = { ...OPEN, [binding]: lim };
+    const ip = { "cf-connecting-ip": "198.51.100.7" };
+    expect((await post(path, body(), ip, e)).status).toBe(200);
+    resend.mockClear();
+    const prepare = vi.spyOn(env.DB, "prepare");
+    const res = await post(path, body(), ip, e);
+    expect(res.status).toBe(429);
+    expect(res.headers.get("Retry-After")).toBe("60");
+    expect(await res.json()).toMatchObject({ success: false });
+    expect(prepare).not.toHaveBeenCalled();
+    expect(resend).not.toHaveBeenCalled();
+    expect(lim.limit).toHaveBeenLastCalledWith({ key: "198.51.100.7" });
+  });
+
+  it("throttles redeem before the staff secret check", async () => {
+    const res = await post("/api/redeem", { offer_code: "AAAA" }, {}, { ...OPEN, REDEEM_LIMITER: limiter(0) });
+    expect(res.status).toBe(429);
+  });
+
+  it("fails open when the binding is absent or throws", async () => {
+    const throwing = { limit: async () => { throw new Error("boom"); } } as unknown as RateLimit;
+    const a = await post("/api/subscribe", { email: uniqueEmail() }, {}, { ...OPEN, SUBSCRIBE_LIMITER: undefined });
+    const b = await post("/api/subscribe", { email: uniqueEmail() }, {}, { ...OPEN, SUBSCRIBE_LIMITER: throwing });
+    expect([a.status, b.status]).toEqual([200, 200]);
+  });
+
+  it("does not run the limiter while the write fence is closed", async () => {
+    const lim = limiter(0);
+    const res = await post("/api/subscribe", { email: uniqueEmail() }, {}, { ...env, WRITES_ENABLED: "false", SUBSCRIBE_LIMITER: lim });
+    expect(res.status).toBe(503);
+    expect(lim.limit).not.toHaveBeenCalled();
   });
 });
 
@@ -223,6 +292,33 @@ describe("POST /api/redeem", () => {
     expect(second.status).toBe(200);
     expect(await second.json()).toEqual({
       ok: false, status: "already_used", message: `Already redeemed at ${row!.offer_code_redeemed_at}.`, event: "2026-07-09",
+    });
+  });
+
+  it("reports already_used when a concurrent request wins between the read and the update", async () => {
+    await seed("RACE-RACE-RACE");
+    // Simulate the race: the SELECT sees an unused row, then another device redeems before our UPDATE runs.
+    const realPrepare = env.DB.prepare.bind(env.DB);
+    let raced = false;
+    const racing = {
+      prepare: (sql: string) => {
+        const stmt = realPrepare(sql);
+        if (!sql.startsWith("UPDATE subscribers") || raced) return stmt;
+        raced = true;
+        return {
+          bind: (...args: unknown[]) => ({
+            run: async () => {
+              await realPrepare("UPDATE subscribers SET offer_code_redeemed = 1, offer_code_redeemed_at = '2026-01-01T00:00:00.000Z' WHERE offer_code = ?")
+                .bind("RACE-RACE-RACE").run();
+              return stmt.bind(...args).run();
+            },
+          }),
+        };
+      },
+    } as unknown as D1Database;
+    const res = await post("/api/redeem", { offer_code: "RACE-RACE-RACE" }, staff(), { ...OPEN, DB: racing });
+    expect(await res.json()).toEqual({
+      ok: false, status: "already_used", message: "Already redeemed at 2026-01-01T00:00:00.000Z.", event: "2026-07-09",
     });
   });
 

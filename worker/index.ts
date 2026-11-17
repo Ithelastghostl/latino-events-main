@@ -57,18 +57,19 @@ export default {
       return json({ success: false, ok: false, message: MAINTENANCE_MESSAGE }, 503);
     }
 
-    // Throttle before any D1 or Resend call.
-    if (await isRateLimited(pathname, req, env)) {
-      return json({ success: false, ok: false, message: "Too many requests. Please wait a minute and try again." }, 429, {
-        "Retry-After": "60",
-      });
-    }
-
-    // write_start / write_end are the drain evidence for the cutover gate (2.8).
+    // write_start / write_end are the drain evidence for the cutover gate (2.8). Every request
+    // admitted past the fence is logged, including one that waits on the limiter.
     const rid = crypto.randomUUID();
     console.log(JSON.stringify({ evt: "write_start", rid, path: pathname }));
     let status = 500;
     try {
+      // Throttle before any D1 or Resend call.
+      if (await isRateLimited(pathname, req, env)) {
+        status = 429;
+        return json({ success: false, ok: false, message: "Too many requests. Please wait a minute and try again." }, 429, {
+          "Retry-After": "60",
+        });
+      }
       const res = await route(req, env);
       status = res.status;
       return res;

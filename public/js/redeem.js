@@ -1,9 +1,7 @@
 // Staff door-redemption page logic. Kept in an external file because the
 // site CSP (script-src 'self') does not allow inline scripts.
 
-const SUPABASE_URL = 'https://iialbhtgugmkmbrhwlud.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpYWxiaHRndWdta21icmh3bHVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MDk2MzYsImV4cCI6MjA5NTQ4NTYzNn0.IYXoLMF_frAY6HtRy58v-sk8IUV1BHQxXiBtiSt1kd0';
-const REDEEM_URL = `${SUPABASE_URL}/functions/v1/redeem`;
+const REDEEM_URL = '/api/redeem';
 
 // The staff secret is held only in sessionStorage: it clears when the tab
 // closes, so it is not left behind on a shared device.
@@ -63,8 +61,6 @@ async function redeem() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        apikey: SUPABASE_ANON_KEY,
         'x-staff-secret': getSecret(),
       },
       body: JSON.stringify({ offer_code: code }),

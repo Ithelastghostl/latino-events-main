@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "latribu",
+  "account_id": "1e61b4ffa9ac77b0085d0588094943db",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-17",
+  "compatibility_flags": ["nodejs_compat"],
+  // Only public/ is served. Repo files (worker/, migrations/, docs, .git) are never assets.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "none",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "latribu-db",
+      "database_id": "e9f6ba36-21d4-412c-9f38-a7e664099202",
+      "migrations_dir": "migrations/d1"
+    }
+  ],
+  // Switches are secrets, never vars (MIGRATION-PLAN 2.8): anything but "true" is closed.
+  "secrets": {
+    "required": ["WRITES_ENABLED", "CRONS_ENABLED", "RESEND_API_KEY", "STAFF_SECRET"]
+  },
+  "ratelimits": [
+    // Per-IP throttles (worker/index.ts). namespace_id is account-wide, so these are unique to La Tribu.
+    { "name": "SUBSCRIBE_LIMITER", "namespace_id": "41701", "simple": { "limit": 5, "period": 60 } },
+    { "name": "CONTACT_LIMITER", "namespace_id": "41702", "simple": { "limit": 5, "period": 60 } },
+    { "name": "REDEEM_LIMITER", "namespace_id": "41703", "simple": { "limit": 20, "period": 60 } }
+  ],
+  "observability": { "enabled": true, "head_sampling_rate": 1 },
+  "workers_dev": true,
+  "preview_urls": false
+}

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Past Events | La Tribu London</title>
+    <meta name="description" content="Relive past La Tribu nights and sign in to see event photos.">
+    <link rel="canonical" href="https://www.latribu.co.uk/past-events.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="/js/supabase-client.js"></script>
+    <script src="/js/posthog-init.js"></script>
+  </head>
+  <body>
+    <header class="site-nav">
+      <div class="nav-inner">
+        <a class="brand" href="index.html" aria-label="La Tribu home"><img class="brand-logo" src="images/logo-nav.svg" alt="La Tribu"></a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="index.html">Home</a>
+          <a href="index.html#events">Events</a>
+          <a href="djs.html">Our DJs</a>
+          <a href="promotions.html">Promotions</a>
+          <a class="active" href="past-events.html">Past Events</a>
+          <a href="venues.html">Venues</a>
+        </nav>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <!-- Hero -->
+      <section class="hero past-hero">
+        <img class="hero-bg" src="images/gallery-3.webp" alt="" aria-hidden="true">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="script eyebrow">You Were There</p>
+          <h1 class="hero-title">PAST EVENTS</h1>
+          <p class="hero-copy">Every recap carries the laughs, the dancing, and the moment the room became familia. Relive the nights that made us La Tribu.</p>
+        </div>
+      </section>
+
+      <!-- Events Timeline -->
+      <section class="past-events-section">
+        <div class="container">
+          <div class="auth-bar">
+            <div>
+              <p class="script eyebrow">Recaps</p>
+              <h2 class="display section-title">Past Events</h2>
+            </div>
+            <button class="btn btn-secondary" id="sign-out-button" type="button" hidden>Sign Out</button>
+          </div>
+          <div id="events-root" class="events-list" aria-live="polite">
+            <div class="loading-state">Loading past events...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Join CTA -->
+      <section class="community past-cta">
+        <div class="container past-cta-inner">
+          <h2 class="display">Don't Miss the Next One</h2>
+          <p>First access to tickets, promotions and events. Drop your email.</p>
+          <form data-signup-form method="post">
+            <div class="signup-row">
+              <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+              <button class="subscribe" type="submit">Join the Tribe</button>
+            </div>
+            <p class="form-status" data-signup-status aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer" id="footer-signup">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img class="brand-logo" src="images/logo-nav.svg" alt="La Tribu">
+            <span class="script">Latin heart. London home.</span>
+          </div>
+          <section>
+            <h2 class="footer-title">Join the Tribe</h2>
+            <p>Be the first to know about new events, exclusive offers and community news.</p>
+            <form data-signup-form method="post">
+              <div class="signup-row">
+                <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+                <button class="subscribe" type="submit">Join</button>
+              </div>
+              <p class="form-status" data-signup-status aria-live="polite"></p>
+            </form>
+          </section>
+          <section>
+            <h2 class="footer-title">WhatsApp</h2>
+            <p>Ticket drops and last-minute plans. Scan or tap in.</p>
+            <a class="qr-placeholder" href="https://chat.whatsapp.com/placeholder" aria-label="Join Our WhatsApp">
+              <img src="images/whatsapp-qr.webp" alt="WhatsApp QR code for La Tribu London" data-hide-on-error>
+            </a>
+          </section>
+          <section>
+            <h2 class="footer-title">Follow</h2>
+            <p>Te vemos en la pista.</p>
+            <div class="footer-socials">
+              <a href="https://www.instagram.com/placeholder">Instagram</a>
+              <a href="https://www.tiktok.com/@placeholder">TikTok</a>
+              <a href="https://chat.whatsapp.com/placeholder">WhatsApp</a>
+            </div>
+          </section>
+        </div>
+        <div class="footer-bottom"><span>La Tribu London 2026</span><span>Privacy Policy</span></div>
+      </div>
+    </footer>
+
+    <div class="toast" id="signup-toast">
+      <div class="toast-box">
+        <span class="toast-icon" id="toast-icon"></span>
+        <p class="toast-title" id="toast-title"></p>
+        <p class="toast-message" id="toast-message"></p>
+        <button class="toast-close" type="button">Got It</button>
+      </div>
+    </div>
+
+    <script src="/js/past-events.js" defer></script>
+  </body>
+</html>

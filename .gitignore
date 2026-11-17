@@ -4,3 +4,11 @@
 .venv
 .venv-tools
 .code-index
+
+# Cloudflare Worker (L1)
+node_modules
+.wrangler
+.dev.vars*
+.env*
+dist-check
+wrangler.preview.jsonc
